@@ -1,0 +1,141 @@
+/**
+ *   A   
+ * F   B    D2  
+ *   G 
+ * E   C    D1     AM
+ *   D             PM
+ */
+.digit {
+  --color: currentcolor;
+  --thick: 0.25em;
+  --length: 1em;
+  --off-opacity: 0.06;
+  --on-opacity: 1;
+  --arrow-scale: 1;
+  --arrow-shift: -0.04em;
+  --distance: -0.15em;
+  --glow-size: 2em;
+
+  /* computed values */
+  --thalf: calc(var(--thick) / 2);
+  --thalf-minus: calc(var(--thalf) * -1);
+  --length-reduced: calc(var(--length) - var(--thick));
+  --distance-minus: calc(var(--distance) * -1);
+  --dhalf: calc(var(--distance) / 2);
+  --dhalf-minus: calc(var(--dhalf) * -1);
+
+  display: inline-block;
+  position: relative;
+  width: calc(var(--length) + var(--thick) + var(--distance) * 2);
+  height: calc(var(--length) * 2 + var(--thick) + var(--distance) * 2);
+  outline: 1px solid red;
+
+  /* segments */
+  & > i {
+    --thalf-100: calc(100% - var(--thalf));
+
+    background-color: var(--color);
+    display: block;
+    position: absolute;
+
+    opacity: var(--off-opacity);
+    &.on {
+      opacity: var(--on-opacity);
+    }
+
+    /* vertical segments */
+    &.vertical {
+      width: var(--thick);
+      height: var(--length-reduced);
+    }
+    &.E {
+      bottom: var(--thalf);
+      left: var(--thalf-minus);
+    }
+    &.C {
+      bottom: var(--thalf);
+      right: var(--thalf-minus);
+    }
+    &.F {
+      top: var(--thalf);
+      left: var(--thalf-minus);
+    }
+    &.B {
+      top: var(--thalf);
+      right: var(--thalf-minus);
+    }
+
+    /* horizontal segments */
+    &.horizontal {
+      width: var(--length-reduced);
+      height: var(--thick);
+      left: var(--thalf);
+    }
+    &.A {
+      top: var(--thalf-minus);
+    }
+    &.D {
+      bottom: var(--thalf-minus);
+    }
+    &.G {
+      bottom: calc(var(--length) - var(--thalf));
+    }
+
+    /* spearheads */
+    &.horizontal {
+      clip-path: polygon(
+        0 50%,
+        var(--thalf) 0,
+        var(--thalf-100) 0,
+        100% 50%,
+        var(--thalf-100) 100%,
+        var(--thalf) 100%
+      );
+    }
+    &.vertical {
+      clip-path: polygon(
+        50% 0,
+        0 var(--thalf),
+        0 var(--thalf-100),
+        50% 100%,
+        100% var(--thalf-100),
+        100% var(--thalf)
+      );
+    }
+    &.round {
+      border-radius: 100vmin;
+      clip-path: unset;
+    }
+    &.rect {
+      clip-path: unset;
+    }
+
+    /* distance between segments */
+    /* horizontal */
+    &.A {
+      transform: translate(0, var(--distance-minus));
+    }
+    &.D {
+      transform: translate(0, var(--distance));
+    }
+
+    /* vertical */
+    &.B {
+      transform: translate(var(--dhalf), var(--dhalf-minus));
+    }
+    &.C {
+      transform: translate(var(--dhalf), var(--dhalf));
+    }
+    &.E {
+      transform: translate(var(--dhalf-minus), var(--dhalf));
+    }
+    &.F {
+      transform: translate(var(--dhalf-minus), var(--dhalf-minus));
+    }
+  }
+
+  &.colon {
+  }
+  &.ampm {
+  }
+}
