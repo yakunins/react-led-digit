@@ -1,1 +1,1 @@
-# Real clock react component
+# digital clock react component

@@ -22,6 +22,7 @@ export interface ClockProps {
    * Optional click handler
    */
   onClick?: () => void;
+  leadingZero?: boolean;
 }
 
 /**

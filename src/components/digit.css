@@ -26,9 +26,9 @@
 
   display: inline-block;
   position: relative;
-  width: calc(var(--length) + var(--thick) + var(--distance));
-  height: calc(var(--length) * 2 + var(--thick) + var(--distance) * 2);
-  outline: 1px solid rgba(255,0,0,.2);
+  min-width: calc(var(--length) + var(--thick) + var(--distance));
+  min-height: calc(var(--length) * 2 + var(--thick) + var(--distance) * 2);
+  outline: 1px solid rgba(255, 0, 0, 0.2);
 
   /* segments */
   & > i {
@@ -49,15 +49,18 @@
       height: var(--length);
       left: 0;
 
-      &.B, &.C {
+      &.B,
+      &.C {
         left: auto;
         right: 0;
       }
     }
-    &.E, &.C {
+    &.E,
+    &.C {
       bottom: calc(var(--thalf) + var(--dhalf));
     }
-    &.F, &.B {
+    &.F,
+    &.B {
       top: calc(var(--thalf) + var(--dhalf));
     }
 
@@ -108,32 +111,43 @@
   }
 
   &.colon {
-    --scale: 1.2;
     width: var(--length);
 
-    & .D1, & .D2 {
-      --size: calc(var(--thick) * var(--scale)); 
+    & .dot.d1,
+    & .dot.d2 {
+      --size: calc(var(--thick) + 1px);
       position: absolute;
       width: var(--size);
       height: var(--size);
-      left: calc((var(--length) - var(--size)) / 2);
+      left: calc(50% - var(--size) / 2);
 
       &.round {
         border-radius: 100vmin;
       }
     }
-    & .D1 { bottom: calc(var(--length) / 2 - var(--distance) / 2); }
-    & .D2 { top: calc(var(--length) / 2 - var(--distance) / 2); }
-
+    & .dot.d1 {
+      bottom: calc(50% + var(--thick));
+    }
+    & .dot.d2 {
+      top: calc(50% + var(--thick));
+    }
   }
   &.ampm {
     width: var(--length);
+    --stroke: red;
 
-    & > .am::before {
-      content: "AM";
+    & > .segment {
+      color: var(--stroke-color);
+      width: var(--length);
+      height: var(--length);
     }
-    & > .pm::before {
-      content: "PM";
+
+    & > .am {
+      color: red;
+      background: transparent;
+      background-image: url('data:image/svg+xml,<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 16 16" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:black;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;} </style><polyline class="st0" points="14.47,11.54 14.47,3.45 11.44,11.54 8.5,3.45 8.5,11.54" /><path class="st0" d="M1.49,11.53V3.41h2.38c1.32,0,2.31,0.83,2.31,2.04S5.13,7.54,3.87,7.54H2.32" /></svg>');
+    }
+    & > .pm {
     }
   }
 }

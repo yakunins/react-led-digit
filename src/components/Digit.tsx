@@ -49,7 +49,7 @@ export type DigitProps = DigitType & {
 function valueToSegments(val: DigitProps['value']) {
   const toObj = (str: string) =>
     Object.fromEntries(Array.from(str.toUpperCase()).map(c => [c, true]));
-  const s = val?.toString();
+  const s = val?.toString().toUpperCase();
 
   if (s === '0') return toObj('ABCDEF');
   if (s === '1') return toObj('BC');
@@ -65,6 +65,7 @@ function valueToSegments(val: DigitProps['value']) {
   if (s === 'PM') return { PM: true };
   if (s === ':') return { D1: true, D2: true };
 }
+const on = (arg?: boolean) => (arg ? 'on' : 'off');
 
 export const Digit = ({
   type = 'digit',
@@ -113,8 +114,6 @@ const DigitSegments = ({
   G,
   ...rest
 }: DigitSegmentsProps) => {
-  const on = (arg?: boolean) => (arg ? ' on' : ' off');
-
   return (
     <div className={cx('digit', className)} {...rest}>
       <i className={cx('segment A horizontal', style, on(A))}></i>
@@ -142,12 +141,10 @@ const ColonSegments = ({
   D2,
   ...rest
 }: ColonSegmentsProps) => {
-  const on = (arg?: boolean) => (arg ? 'on' : 'off');
-
   return (
     <div className={cx('digit colon', className)} {...rest}>
-      <i className={cx('segment D1 dot', style, on(D1))}></i>
-      <i className={cx('segment D2 dot', style, on(D2))}></i>
+      <i className={cx('segment dot d1', style, on(D1))}></i>
+      <i className={cx('segment dot d2', style, on(D2))}></i>
     </div>
   );
 };
@@ -166,8 +163,6 @@ const AmpmSegments = ({
   PM,
   ...rest
 }: AmpmSegmentsProps) => {
-  const on = (arg?: boolean) => (arg ? 'on' : 'off');
-
   return (
     <div className={cx('digit ampm', className)} {...rest}>
       <i className={cx('segment am', style, on(AM))}></i>

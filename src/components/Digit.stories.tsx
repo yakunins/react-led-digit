@@ -29,7 +29,7 @@ const WithMargin = () => {
       <Digit value={1} />
       <Digit value={2} />
       <Digit value={3} />
-      <Digit value={4}  style={{ digit: 'rect' }} />
+      <Digit value={4} style={{ digit: 'rect' }} />
       <Digit type="colon" value=":" />
       <Digit value={5} />
       <Digit value={6} />
@@ -37,7 +37,7 @@ const WithMargin = () => {
       <Digit value={8} />
       <Digit value={9} style={{ digit: 'round' }} />
       <Digit type="ampm" value="am" />
-      <Digit type="colon" value=":" style={{ colon: "round"}} />
+      <Digit type="colon" value=":" style={{ colon: 'round' }} />
       <Digit type="ampm" value="PM" />
     </div>
   );
