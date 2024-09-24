@@ -1,1 +1,1 @@
-export const Clock = "real clock react";
+export * from './components';

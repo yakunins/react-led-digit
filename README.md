@@ -1,1 +1,1 @@
-# digital clock react component
+# React seven-segment digit component
