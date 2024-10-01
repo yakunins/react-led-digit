@@ -10,6 +10,7 @@
 
 .digit {
   --color: var(--segment-color, currentColor);
+  --color-off: var(--segment-color-off, var(--color));
   --thick: var(--segment-thickness, 0.25em); /* 4px */
   --length: var(--segment-length, 1em);
   --spacing: var(--segment-spacing, 0.0625em); /* 1px */
@@ -87,6 +88,9 @@
     display: block;
     position: absolute;
 
+    &.off {
+      background-color: var(--color-off);
+    }
     /* vertical segments */
     &.vertical {
       width: var(--thick);

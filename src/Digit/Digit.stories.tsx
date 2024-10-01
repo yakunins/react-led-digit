@@ -51,12 +51,15 @@ const DigitTest = () => {
         <Digit
           value={1}
           shape="round"
-          segmentStyle={{ thickness: '.35em' }}
-          style={{ color: 'red' }}
+          segmentStyle={{
+            thickness: '.35em',
+            color: 'green',
+            colorOff: 'blue',
+          }}
         />
         <Digit value={2} shape="pill" segmentStyle={{ thickness: '.5em' }} />
         <Digit value={3} shape="rect" segmentStyle={{ spacing: '.25em' }} />
-        <Digit value={4} />
+        <Digit value={4} style={{ color: 'red' }} />
         <Digit value=":" />
         <Digit value={5} />
         <Digit value={6} />
@@ -65,7 +68,6 @@ const DigitTest = () => {
         <Digit value={9} />
         <Digit value="." />
         <Digit value="pm" />
-        <Digit value=" " />
       </div>
       <div style={grid}>
         <Digit value="pm" />
@@ -76,7 +78,6 @@ const DigitTest = () => {
         <Digit value="pm" shape="pill" />
         <Digit value="-" shape="pill" />
         <Digit value="_" shape="pill" />
-        <Digit value="?" />
       </div>
       <div style={grid}>
         <Digit value="A" />

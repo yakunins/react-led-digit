@@ -9,7 +9,7 @@ type DigitValue = NumValue | SevenSegmentsValue | 'am' | 'pm' | ':' | '.';
 type DivProps = React.HTMLAttributes<HTMLDivElement>;
 type DigitProps = {
   /*
-   * If true, all segments to turn off, e.g. have 'opacityOff'
+   * If true, all segments turn off having 'opacityOff' and
    */
   off?: boolean;
   /*
@@ -28,9 +28,13 @@ type DigitProps = {
 
 type SegmentStyle = {
   /*
-   * To override currentColor value, e.g same as passing style={{ color: ... }}
+   * Override currentColor, e.g works same way as style={{ color: ... }}
    */
   color?: CSSProperties['color'];
+  /*
+   * Override currentColor for segments that turned off
+   */
+  colorOff?: CSSProperties['color'];
   /*
    * Length of a segment
    */
@@ -62,6 +66,7 @@ export const Digit = ({ segmentStyle, value, ...rest }: Digit) => {
 
   const sx = {
     '--segment-color': segmentStyle?.color,
+    '--segment-color-off': segmentStyle?.colorOff,
     '--segment-thickness': segmentStyle?.thickness,
     '--segment-spacing': segmentStyle?.spacing,
     '--segment-length': segmentStyle?.length,

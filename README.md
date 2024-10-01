@@ -1,6 +1,7 @@
 # React Seven-Segment Digit Component
 
 Intended to use in digital clock or calculator.
+Pure HTML and CSS
 
 Use example:
 
