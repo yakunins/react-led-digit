@@ -1,6 +1,6 @@
 {
-  "name": "react-digit",
-  "version": "0.0.0-development",
+  "name": "react-led-digit",
+  "version": "0.0.1",
   "description": "",
   "main": "./lib/index.js",
   "files": [
@@ -32,9 +32,11 @@
   },
   "keywords": [
     "react",
+    "led",
+    "digit",
     "component",
     "7-segment",
-    "digit",
+    "digital",
     "clock"
   ],
   "homepage": "https://github.com/yakunins/real-clock",
