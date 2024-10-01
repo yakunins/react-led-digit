@@ -113,10 +113,8 @@ export class Blinker {
     if (!this.#state.subscribers.includes(fn)) {
       this.#state.subscribers.push(fn);
     }
-    console.log('subscribe()', this.#state.subscribers, this.#state.blinks);
   }
   unsubscribe(fn: BlinkerSubscriber) {
     this.#state.subscribers = this.#state.subscribers.filter(i => i !== fn);
-    console.log('unsubscribe()', this.#state.subscribers, this.#state.blinks);
   }
 }
