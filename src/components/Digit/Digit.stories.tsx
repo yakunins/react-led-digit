@@ -1,7 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Digit } from './Digit';
 import { BlinkingDigit } from './BlinkingDigit';
+import { charToSevenSegments } from './utils';
 
 const meta = {
   title: 'Example/Digit',
@@ -62,7 +63,9 @@ const DigitTest = () => {
         <Digit value={7} />
         <Digit value={8} off />
         <Digit value={9} />
-        <Digit value="pm" shape="rect" />
+        <Digit value="." />
+        <Digit value="pm" />
+        <Digit value=" " />
       </div>
       <div style={grid}>
         <Digit value="pm" />
@@ -71,6 +74,9 @@ const DigitTest = () => {
         <Digit value="am" shape="round" />
         <Digit value=":" shape="pill" />
         <Digit value="pm" shape="pill" />
+        <Digit value="-" shape="pill" />
+        <Digit value="_" shape="pill" />
+        <Digit value="?" />
       </div>
       <div style={grid}>
         <Digit value="A" />
@@ -82,8 +88,11 @@ const DigitTest = () => {
         <Digit value="L" />
         <Digit value="O" />
         <Digit value="P" />
+        <Digit value="S" />
         <Digit value="U" />
         <Digit value="Y" />
+      </div>
+      <div style={grid}>
         <Digit value="c" />
         <Digit value="b" />
         <Digit value="d" />
@@ -134,48 +143,151 @@ const DigitTest = () => {
   );
 };
 
-const BlinkingDigitTest = () => {
-  const grid = {
-    margin: '2vmin',
-    display: 'flex',
-    gap: '.35rem',
-    placeItems: 'center center',
-  };
-
-  const input = useRef<HTMLInputElement>(null);
-  const [digits, setDigits] = useState('');
-  const addDigit = () => {
-    const char = input.current?.value;
-    if (char) setDigits(digits + char);
-  };
-  const removeDigit = idx => {
-    let next = setCharAt(digits, idx, '');
-    setDigits(next);
-  };
-
-  return (
-    <>
-      <style>{`.digit {outline: 0.1px solid rgba(255, 0, 0, 0.2);}`}</style>
-      <div style={grid}>
-        <BlinkingDigit value=":" />
-        {digits.split('').map((char, idx) => (
-          <BlinkingDigit
-            key={idx}
-            value={char as Digit['value']}
-            onClick={() => removeDigit(idx)}
-          />
-        ))}
-      </div>
-      <button onClick={addDigit}>Add digit</button>
-      <input ref={input} placeholder="digit value" maxLength={1} />
-    </>
-  );
+const gridStyle = {
+  margin: '2vmin',
+  display: 'flex',
+  gap: '.35rem',
+  placeItems: 'center center',
 };
 
+const charset = new Set(Object.keys(charToSevenSegments));
 function setCharAt(str, index, chr) {
   if (index > str.length - 1) return str;
   return str.substr(0, index) + chr + str.substr(index + 1);
 }
+
+const BlinkingDigitTest = () => {
+  const input = useRef<HTMLInputElement>(null);
+  const [dgts, setDgts] = useState('');
+
+  const addDigit = () => {
+    if (input.current!.value) {
+      setDgts(prev => prev + input.current!.value);
+    }
+  };
+
+  const removeDigit = idx => {
+    const next = setCharAt(dgts, idx, '');
+    setDgts(next);
+  };
+
+  const handleChange = () => {
+    if (!charset.has(input.current!.value)) {
+      input.current!.value = '';
+    }
+  };
+
+  const handleInputKeypress = e => {
+    if (e.key === 'Enter') {
+      addDigit();
+    }
+  };
+
+  useEffect(() => {
+    input.current?.addEventListener('keydown', handleInputKeypress);
+    return () => {
+      input.current?.removeEventListener('keydown', handleInputKeypress);
+    };
+  }, []);
+
+  return (
+    <>
+      <style>{`.digit {outline: 0.1px solid rgba(255, 0, 0, 0.2);}`}</style>
+      <style>{`input { border: 1px solid black; border-radius: .5em; padding: .5rem .25rem;}`}</style>
+      <style>{`button { border: none; border-radius: .5em; padding: .5rem 1rem;}`}</style>
+      <style>{`button, input, p { font-size: 100%; font-family: sans-serif; margin: .25rem;}`}</style>
+      <p>charset: {Array.from(charset).join(', ')}</p>
+      <input
+        type="text"
+        placeholder="digit"
+        ref={input}
+        onChange={handleChange}
+        maxLength={1}
+      />
+      <button onClick={addDigit}>Add digit</button>
+      <div style={gridStyle}>
+        <Digit value="b" />
+        <BlinkingDigit value=":" />
+        {dgts.split('').map((char, idx) => (
+          <BlinkingDigit
+            key={idx}
+            value={char as Digit['value']}
+            onClick={() => removeDigit(idx)}
+            blink={{
+              period: 200,
+              ratio: 2,
+            }}
+          />
+        ))}
+      </div>
+    </>
+  );
+};
+
+export type DisplayProps = React.HTMLAttributes<HTMLDivElement> & {
+  scale?: number;
+  segmentStyle?: Digit['segmentStyle'];
+  value: string;
+};
+
+const getDigits = (str: string): Digit['value'][] => {
+  let s = str.trim().toLowerCase();
+  const am = s.includes('am');
+  const pm = s.includes('pm');
+  s = s.replace('am', '').replace('pm', '').replace(' ', '');
+  const result = s.split('') as Digit['value'][];
+  if (am) result.push('am');
+  if (pm) result.push('pm');
+  return result;
+};
+
+const Display = React.memo(({ scale = 1, value, ...rest }: DisplayProps) => {
+  const digits = getDigits(value);
+  return (
+    <div {...rest}>
+      {digits.map((digit, idx) => {
+        const d = digit.toString();
+        return (
+          <BlinkingDigit
+            key={idx}
+            value={digit}
+            off={':.-'.includes(d) ? undefined : false}
+            style={{
+              fontSize: `${scale * 100}%`,
+            }}
+          />
+        );
+      })}
+    </div>
+  );
+});
+
+const getTime = () => new Date().toLocaleTimeString();
+
+const SimpleClock = () => {
+  const [time, setTime] = useState(getTime());
+
+  useEffect(() => {
+    const i = setInterval(() => {
+      setTime(getTime());
+    }, 1000);
+
+    return () => clearInterval(i);
+  }, []);
+
+  useEffect(() => {
+    console.log(time);
+  }, [time]);
+
+  return <Display style={gridStyle} value={time} />;
+};
+
+export const Clock: Story = {
+  args: {
+    value: '0',
+  },
+  render: SimpleClock,
+};
 
 export const Pimary: Story = {
   args: {

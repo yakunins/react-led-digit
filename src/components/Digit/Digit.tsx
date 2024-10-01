@@ -7,33 +7,21 @@ import {
 } from './utils/charToSevenSegments';
 import './digit.css';
 
-type DigitValue =
-  | SevenSegmentsValue
-  | 0
-  | 1
-  | 2
-  | 3
-  | 4
-  | 5
-  | 6
-  | 7
-  | 8
-  | 9
-  | 'am'
-  | 'pm'
-  | ':'
-  | '.';
+type NumValue = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+type DigitValue = NumValue | SevenSegmentsValue | 'am' | 'pm' | ':' | '.';
 type DivProps = React.HTMLAttributes<HTMLDivElement>;
 type DigitProps = {
   /*
-   * If true, to turn all segments off
+   * If true, all segments to turn off, e.g. have 'opacityOff'
    */
   off?: boolean;
-  /**
-   * Shape of the segment, default is "diamond".
-   * Digit' segments has shape of diamond and ampm has no background.
+  /*
+   * Shape of the segment. Default is "undefined", meaning...
+   * For 7-segment digit default shape is diamond.
+   * For colon and dot values default shape is circle.
+   * For am-pm value default is letters with no background.
    */
-  shape?: 'diamond' | 'rect' | 'round' | 'pill';
+  shape?: 'arduino' | 'diamond' | 'rect' | 'round' | 'pill';
   /*
    * If number or character (like "L"), renders itself as 7-segment digit.
    * If ":", "." or "am"/"pm", renders itself as colon digit or dot
@@ -42,27 +30,27 @@ type DigitProps = {
 };
 
 type SegmentStyle = {
-  /**
+  /*
    * To override currentColor value, e.g same as passing style={{ color: ... }}
    */
   color?: CSSProperties['color'];
-  /**
+  /*
    * Length of a segment
    */
   length?: CSSProperties['width'];
-  /**
+  /*
    * Thickness of a segment
    */
   thickness?: CSSProperties['width'];
-  /**
+  /*
    * Spacing between segments. Might be negative.
    */
   spacing?: CSSProperties['width'];
-  /**
+  /*
    * Vertical shift of top (A) and bottom (D) segments
    */
   filament?: CSSProperties['width'];
-  /**
+  /*
    * On & off opacity of segments, defaults is 1 and 0.1
    */
   opacityOn?: CSSProperties['opacity'];
@@ -70,14 +58,10 @@ type SegmentStyle = {
 };
 
 export type Digit = DivProps & DigitProps & { segmentStyle?: SegmentStyle };
-export const Digit = ({
-  shape = 'diamond',
-  segmentStyle,
-  value,
-  ...rest
-}: Digit) => {
+export const Digit = ({ segmentStyle, value, ...rest }: Digit) => {
   const type = valueToType(value);
-  const segments = valueToSegments(value); // {A: true, ...}
+  const segments = type && valueToSegments(value); // {A: true, ...}
+
   const sx = {
     '--segment-color': segmentStyle?.color,
     '--segment-thickness': segmentStyle?.thickness,
@@ -90,17 +74,15 @@ export const Digit = ({
   } as CSSProperties;
 
   if (type === 'digit')
-    return <DigitSegments {...rest} {...segments} style={sx} shape={shape} />;
+    return <DigitSegments {...rest} {...segments} style={sx} />;
   if (type === 'colon')
-    return <ColonSegments {...rest} {...segments} style={sx} shape={shape} />;
+    return <ColonSegments {...rest} {...segments} style={sx} />;
   if (type === 'ampm')
-    return <AmpmSegments {...rest} {...segments} style={sx} shape={shape} />;
-  if (type === 'dot')
-    return <DotSegments {...rest} {...segments} style={sx} shape={shape} />;
+    return <AmpmSegments {...rest} {...segments} style={sx} />;
+  if (type === 'dot') return <DotSegments {...rest} {...segments} style={sx} />;
 
-  console.warn(`Digit.tsx: unknown value type: ${value.toString()}`);
-
-  return <div {...rest}>{value.toString()}</div>;
+  console.warn(`Digit.tsx: incompatible value: ${value.toString()}`);
+  return <div {...rest} className={cx('digit unknown', rest.className)}></div>;
 };
 
 type DigitSegments = DivProps & {
@@ -129,28 +111,25 @@ const DigitSegments = ({
   G,
   ...rest
 }: DigitSegments) => {
-  const isOff = (v?: boolean) => !v || off;
-  const isOn = (v?: boolean) => !!v && !off;
-
   return (
     <div className={cx('digit', shapeCx(shape), className)} {...rest}>
       <div className="opacity-wrapper off">
-        {isOff(A) && <i className={cx('segment A horizontal')}></i>}
-        {isOff(B) && <i className={cx('segment B vertical')}></i>}
-        {isOff(C) && <i className={cx('segment C vertical')}></i>}
-        {isOff(D) && <i className={cx('segment D horizontal')}></i>}
-        {isOff(E) && <i className={cx('segment E vertical')}></i>}
-        {isOff(F) && <i className={cx('segment F vertical')}></i>}
-        {isOff(G) && <i className={cx('segment G horizontal')}></i>}
+        <i className={cx(onOffCx(A, off), 'segment A horizontal')}></i>
+        <i className={cx(onOffCx(B, off), 'segment B vertical')}></i>
+        <i className={cx(onOffCx(C, off), 'segment C vertical')}></i>
+        <i className={cx(onOffCx(D, off), 'segment D horizontal')}></i>
+        <i className={cx(onOffCx(E, off), 'segment E vertical')}></i>
+        <i className={cx(onOffCx(F, off), 'segment F vertical')}></i>
+        <i className={cx(onOffCx(G, off), 'segment G horizontal')}></i>
       </div>
       <div className="opacity-wrapper on">
-        {isOn(A) && <i className={cx('segment A horizontal')}></i>}
-        {isOn(B) && <i className={cx('segment B vertical')}></i>}
-        {isOn(C) && <i className={cx('segment C vertical')}></i>}
-        {isOn(D) && <i className={cx('segment D horizontal')}></i>}
-        {isOn(E) && <i className={cx('segment E vertical')}></i>}
-        {isOn(F) && <i className={cx('segment F vertical')}></i>}
-        {isOn(G) && <i className={cx('segment G horizontal')}></i>}
+        <i className={cx(onOffCx(A, off), 'segment A horizontal')}></i>
+        <i className={cx(onOffCx(B, off), 'segment B vertical')}></i>
+        <i className={cx(onOffCx(C, off), 'segment C vertical')}></i>
+        <i className={cx(onOffCx(D, off), 'segment D horizontal')}></i>
+        <i className={cx(onOffCx(E, off), 'segment E vertical')}></i>
+        <i className={cx(onOffCx(F, off), 'segment F vertical')}></i>
+        <i className={cx(onOffCx(G, off), 'segment G horizontal')}></i>
       </div>
     </div>
   );
@@ -191,7 +170,7 @@ type ColonSegments = DivProps & {
 const ColonSegments = ({
   className,
   off,
-  shape,
+  shape = 'pill',
   D1,
   D2,
   ...rest
@@ -208,38 +187,43 @@ type DotSegments = DivProps & {
   className?: string;
   off?: DigitProps['off'];
   shape?: DigitProps['shape'];
-  D?: boolean;
+  DP?: boolean;
 };
 
-const DotSegments = ({ className, off, shape, D, ...rest }: DotSegments) => {
+const DotSegments = ({
+  className,
+  off,
+  shape = 'pill',
+  DP,
+  ...rest
+}: DotSegments) => {
   return (
     <div className={cx('digit dot', shapeCx(shape), className)} {...rest}>
-      <i className={cx('segment D', onOffCx(D, off))}></i>
+      <i className={cx('segment DP', onOffCx(DP, off))}></i>
     </div>
   );
 };
 
-const charSet = new Set(Object.keys(charToSevenSegments));
+const charset = new Set(Object.keys(charToSevenSegments));
 
 function valueToType(v: DigitProps['value']) {
-  const val = v.toString();
-  if (val === ':') return 'colon';
-  if (val === '.') return 'dot';
-  if (val.toLowerCase() === 'am' || val.toLowerCase() === 'pm') return 'ampm';
-  if (charSet.has(val)) return 'digit';
+  const str = v.toString();
+  if (str === ':') return 'colon';
+  if (str === '.') return 'dot';
+  if (str.toLowerCase() === 'am' || str.toLowerCase() === 'pm') return 'ampm';
+  if (charset.has(str)) return 'digit';
   return undefined;
 }
 
-function valueToSegments(val: Digit['value']) {
-  const s = val?.toString();
+function valueToSegments(v: Digit['value']) {
+  const str = v?.toString();
 
-  if (s.toLowerCase() === 'am') return { AM: true };
-  if (s.toLowerCase() === 'pm') return { PM: true };
-  if (s === ':') return { D1: true, D2: true };
-  if (s === '.') return { D: true };
+  if (str.toLowerCase() === 'am') return { AM: true };
+  if (str.toLowerCase() === 'pm') return { PM: true };
+  if (str === ':') return { D1: true, D2: true };
+  if (str === '.') return { DP: true };
 
-  const segments = charToSevenSegments[s as SevenSegmentsValue];
-
+  const segments = charToSevenSegments[str as SevenSegmentsValue];
   return stringToProps(segments);
 }
 

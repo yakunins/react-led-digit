@@ -1,54 +1,94 @@
-type BlinkFunction = (arg: BlinkSingleton['state']) => void;
+type BlinkSubscriber = (state: BlinkSingleton['visible']) => void;
+type BlinkHandler = {
+  timeout: null | ReturnType<typeof setTimeout>;
+  subscribers: BlinkSubscriber[];
+  on: (i: BlinkSingleton) => void;
+  off: (i: BlinkSingleton) => void;
+};
+
+type BlinkSingletonOptions = {
+  // Start blinking immediatelly after instance creation.
+  autoRun?: boolean;
+  period?: BlinkSingleton['period'];
+  ratio?: BlinkSingleton['ratio'];
+  visible?: BlinkSingleton['visible'];
+};
+
+const defaultOpts = {
+  autoRun: true,
+  period: 1000,
+  ratio: 1,
+  visible: true,
+};
 
 export type BlinkSingleton = {
-  subscribers: Function[];
-  state?: 'on' | 'off';
-  onInterval: null | ReturnType<typeof setTimeout>;
-  offInterval: null | ReturnType<typeof setTimeout>;
-  offTimeout: null | ReturnType<typeof setTimeout>;
-  on: () => void;
-  off: () => void;
-  subscribe: (fn: BlinkFunction) => void;
-  unsubscribe: (fn: BlinkFunction) => void;
-  start: () => void;
+  // Blinking period, in milliseconds
+  period: number;
+  // Ratio of visible period to hidden periods
+  ratio: number;
+  // Visibility state
+  visible: boolean;
+  subscribe: (fn: BlinkSubscriber) => void;
+  unsubscribe: (fn: BlinkSubscriber) => void;
+  run: (opts?: BlinkSingletonOptions) => void;
   stop: () => void;
 };
 
-export const blinkSingleton = (_period = 1000) => {
+const handler: BlinkHandler = {
+  timeout: null,
+  subscribers: [],
+  on(i: BlinkSingleton) {
+    i.visible = true;
+    this.subscribers.forEach(fn => fn(true));
+    this.timeout = setTimeout(() => {
+      this.off(i);
+    }, i.period * i.ratio);
+  },
+  off(i: BlinkSingleton) {
+    i.visible = false;
+    this.subscribers.forEach(fn => fn(false));
+    this.timeout = setTimeout(() => {
+      this.on(i);
+    }, i.period / i.ratio);
+  },
+};
+
+export const blinkSingleton = (opts = defaultOpts) => {
+  const options = { ...defaultOpts, ...opts };
   const instance: BlinkSingleton = {
-    state: undefined,
-    onInterval: null,
-    offInterval: null,
-    offTimeout: null,
-    subscribers: [],
-    on() {
-      this.subscribers.forEach(fn => fn(this.state));
-    },
-    off() {
-      this.subscribers.forEach(fn => fn(this.state));
-    },
-    start() {
-      this.on();
-      this.onInterval = setInterval(() => {
-        this.state = 'on';
-        this.on();
-        this.offTimeout = setTimeout(() => {
-          this.state = 'off';
-          this.off();
-        }, _period / 2);
-      }, _period);
+    period: options.period,
+    visible: options.visible,
+    ratio: options.ratio,
+    run(opts2 = options) {
+      const options2 = { ...options, ...opts2 };
+      if (handler.timeout) {
+        if (
+          this.period === options2.period &&
+          this.visible === options2.visible &&
+          this.ratio === options2.ratio
+        )
+          return; // if nothing has changed, keep running
+        this.stop();
+      }
+      this.period = options2.period;
+      this.ratio = options2.ratio;
+      this.visible = options2.visible;
+      this.visible ? handler.on(this) : handler.off(this); // run here
     },
     stop() {
-      this.onInterval && clearInterval(this.onInterval);
-      this.offInterval && clearInterval(this.offInterval);
-      this.offTimeout && clearTimeout(this.offTimeout);
+      handler.timeout && clearTimeout(handler.timeout);
+      handler.timeout = null;
     },
     subscribe(fn) {
-      this.subscribers.push(fn);
+      if (!handler.subscribers.includes(fn)) {
+        handler.subscribers.push(fn);
+      }
     },
     unsubscribe(fn) {
-      this.subscribers.filter(i => i !== fn);
+      handler.subscribers.filter(i => i !== fn);
     },
   };
+
+  options.autoRun && instance.run();
   return instance;
 };

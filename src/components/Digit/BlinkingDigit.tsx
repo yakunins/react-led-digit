@@ -1,25 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { Digit } from './Digit';
-import { blinkSingleton } from './utils';
+import { Blinker } from './utils';
 
-const blinker = blinkSingleton();
-blinker.start();
-
-export const BlinkingDigit = ({
-  blink = true,
-  ...rest
-}: Digit & { blink?: boolean }) => {
-  const [off, setOff] = useState(false);
-
-  const handleBlink = state => {
-    if (state === 'on') setOff(false);
-    if (state === 'off') setOff(true);
+type BlinkingDigit = Digit & {
+  blink?: {
+    period?: Blinker['period'];
+    ratio?: Blinker['ratio'];
   };
+};
+
+const digitBlinker = new Blinker(); // all BlinkingDigit's to blink in sync
+
+export const BlinkingDigit = React.memo(({ blink, ...rest }: BlinkingDigit) => {
+  if (
+    blink?.period === 0 ||
+    blink?.ratio === 0 ||
+    typeof rest?.off === 'boolean'
+  )
+    return <Digit {...rest} />; // no blinker required
+
+  const [visible, setVisible] = useState(digitBlinker.visible);
 
   useEffect(() => {
-    blinker.subscribe(handleBlink);
-    return () => blinker.unsubscribe(handleBlink);
-  }, []);
+    if (blink?.period) digitBlinker.period = blink.period;
+    if (blink?.ratio) digitBlinker.ratio = blink.ratio;
 
-  return <Digit off={off} {...rest} />;
-};
+    digitBlinker.subscribe(setVisible);
+    return () => digitBlinker.unsubscribe(setVisible);
+  }, [blink?.period, blink?.ratio]);
+
+  return <Digit {...rest} off={rest.off || !visible} />;
+});

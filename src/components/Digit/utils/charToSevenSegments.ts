@@ -1,6 +1,7 @@
-export type SevenSegmentsValue = DigitNumber | DigitLetter;
+export type SevenSegmentsValue = DigitNumber | DigitSpecial | DigitLetter;
 
 type DigitNumber = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
+type DigitSpecial = '_' | '-';
 type DigitLetter =
   | 'A'
   | 'C'
@@ -11,6 +12,7 @@ type DigitLetter =
   | 'L'
   | 'O'
   | 'P'
+  | 'S'
   | 'U'
   | 'Y'
   | 'c'
@@ -23,16 +25,20 @@ type DigitLetter =
   | 'u';
 
 /**
+ *
  *   A
- * F   B
+ * F   B      D2      AM
  *   G
- * E   C
- *   D
+ * E   C      D1      PM
+ *   D       DP
+ *
  */
 
 export const charToSevenSegments: {
   [keyName in SevenSegmentsValue]: string;
 } = {
+  _: 'D',
+  '-': 'G',
   '0': 'ABCDEF',
   '1': 'BC',
   '2': 'ABDEG',
@@ -52,6 +58,7 @@ export const charToSevenSegments: {
   L: 'DEF',
   O: 'ABCDEF',
   P: 'ABEFG',
+  S: 'ACDFG',
   U: 'BCDEF',
   Y: 'BCDFG',
   c: 'DEG',

@@ -1,5 +1,5 @@
 {
-  "name": "digital-clock-react",
+  "name": "react-digit",
   "version": "0.0.0-development",
   "description": "",
   "main": "./lib/index.js",
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yakunins/real-clock.git"
+    "url": "git+https://github.com/yakunins/react-digit.git"
   },
   "license": "MIT",
   "author": {
@@ -33,6 +33,8 @@
   "keywords": [
     "react",
     "component",
+    "7-segment",
+    "digit",
     "clock"
   ],
   "homepage": "https://github.com/yakunins/real-clock",
