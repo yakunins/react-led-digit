@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Digit } from './Digit';
-import { Blinker } from './utils';
+import { Digit } from '../Digit';
+import { Blinker } from '../Blinker';
 
 type BlinkingDigit = Digit & {
   blink?: {

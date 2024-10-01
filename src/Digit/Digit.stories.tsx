@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Digit } from './Digit';
-import { BlinkingDigit } from './BlinkingDigit';
-import { charToSevenSegments } from './utils';
+import { BlinkingDigit } from '../';
+import { charToSevenSegments } from './';
 
 const meta = {
   title: 'Example/Digit',
@@ -214,8 +214,11 @@ const BlinkingDigitTest = () => {
             value={char as Digit['value']}
             onClick={() => removeDigit(idx)}
             blink={{
-              period: 200,
-              ratio: 2,
+              period: 2000,
+              ratio: 3,
+            }}
+            segmentStyle={{
+              opacityDuration: '0.5s',
             }}
           />
         ))}
@@ -274,10 +277,6 @@ const SimpleClock = () => {
 
     return () => clearInterval(i);
   }, []);
-
-  useEffect(() => {
-    console.log(time);
-  }, [time]);
 
   return <Display style={gridStyle} value={time} />;
 };

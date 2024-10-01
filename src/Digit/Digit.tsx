@@ -1,10 +1,7 @@
 import React, { CSSProperties } from 'react';
 import { default as cx } from 'classnames';
 
-import {
-  charToSevenSegments,
-  SevenSegmentsValue,
-} from './utils/charToSevenSegments';
+import { charToSevenSegments, SevenSegmentsValue } from './charToSevenSegments';
 import './digit.css';
 
 type NumValue = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
@@ -55,6 +52,7 @@ type SegmentStyle = {
    */
   opacityOn?: CSSProperties['opacity'];
   opacityOff?: CSSProperties['opacity'];
+  opacityDuration?: CSSProperties['transitionDuration'];
 };
 
 export type Digit = DivProps & DigitProps & { segmentStyle?: SegmentStyle };
@@ -70,6 +68,7 @@ export const Digit = ({ segmentStyle, value, ...rest }: Digit) => {
     '--segment-filament': segmentStyle?.filament,
     '--segment-opacity-on': segmentStyle?.opacityOn,
     '--segment-opacity-off': segmentStyle?.opacityOff,
+    '--segment-opacity-duration': segmentStyle?.opacityDuration,
     ...rest.style,
   } as CSSProperties;
 
