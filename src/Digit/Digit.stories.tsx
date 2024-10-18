@@ -21,7 +21,7 @@ type Story = StoryObj<typeof meta>;
 
 const StyledDigit = ({ value, ...rest }) => {
   return (
-    <Digit
+    <BlinkingDigit
       {...rest}
       value={value}
       shape="pill"
@@ -70,14 +70,14 @@ const DigitTest = () => {
         <Digit value="pm" />
       </div>
       <div style={grid}>
-        <Digit value="pm" />
-        <Digit value=":" shape="round" />
-        <Digit value="pm" shape="rect" />
-        <Digit value="am" shape="round" />
-        <Digit value=":" shape="pill" />
-        <Digit value="pm" shape="pill" />
-        <Digit value="-" shape="pill" />
-        <Digit value="_" shape="pill" />
+        <BlinkingDigit value="pm" />
+        <BlinkingDigit value=":" shape="round" />
+        <BlinkingDigit value="pm" shape="rect" />
+        <BlinkingDigit value="am" shape="round" />
+        <BlinkingDigit value=":" shape="pill" />
+        <BlinkingDigit value="pm" shape="pill" />
+        <BlinkingDigit value="-" shape="pill" />
+        <BlinkingDigit value="_" shape="pill" />
       </div>
       <div style={grid}>
         <Digit value="A" />
@@ -219,7 +219,7 @@ const BlinkingDigitTest = () => {
               ratio: 3,
             }}
             segmentStyle={{
-              opacityDuration: '0.5s',
+              transitionDuration: '0.5s',
             }}
           />
         ))}
@@ -258,6 +258,9 @@ const Display = React.memo(({ scale = 1, value, ...rest }: DisplayProps) => {
             off={':.-'.includes(d) ? undefined : false}
             style={{
               fontSize: `${scale * 100}%`,
+            }}
+            segmentStyle={{
+              colorOff: 'red',
             }}
           />
         );

@@ -82,23 +82,17 @@ export class Blinker {
     this.#state.blinks++;
     this.#state.visible = true;
     this.#state.subscribers.forEach(fn => fn(true));
-    this.#state.timeout = setTimeout(
-      () => {
-        this.#off();
-      },
-      this.#state.period * (1 - 1 / this.#state.ratio)
-    );
+    this.#state.timeout = setTimeout(() => {
+      this.#off();
+    }, getPeriod(this.#state).on);
   }
   #off() {
     this.#state.blinks++;
     this.#state.visible = false;
     this.#state.subscribers.forEach(fn => fn(false));
-    this.#state.timeout = setTimeout(
-      () => {
-        this.#on();
-      },
-      this.#state.period * (1 / this.#state.ratio)
-    );
+    this.#state.timeout = setTimeout(() => {
+      this.#on();
+    }, getPeriod(this.#state).off);
   }
 
   start(visible = this.#state.visible) {
@@ -117,4 +111,12 @@ export class Blinker {
   unsubscribe(fn: BlinkerSubscriber) {
     this.#state.subscribers = this.#state.subscribers.filter(i => i !== fn);
   }
+}
+
+function getPeriod(state: BlinkerState) {
+  const total = state.ratio + 1;
+  return {
+    on: state.period * (1 / total),
+    off: state.period * (1 - 1 / total),
+  };
 }

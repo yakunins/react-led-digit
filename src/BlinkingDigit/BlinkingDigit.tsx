@@ -9,7 +9,7 @@ type BlinkingDigit = Digit & {
   };
 };
 
-const digitBlinker = new Blinker(); // all BlinkingDigit's to blink in sync
+const digitBlinker = new Blinker(); // singleton makes all BlinkingDigit's to blink synchronoulsy
 
 export const BlinkingDigit = React.memo(({ blink, ...rest }: BlinkingDigit) => {
   if (

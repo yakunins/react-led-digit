@@ -6,18 +6,19 @@ type DigitValue = NumValue | SevenSegmentsValue | 'am' | 'pm' | ':' | '.';
 type DivProps = React.HTMLAttributes<HTMLDivElement>;
 type DigitProps = {
     off?: boolean;
-    shape?: 'arduino' | 'diamond' | 'rect' | 'round' | 'pill';
+    shape?: 'default' | 'rect' | 'round' | 'pill';
     value: DigitValue;
 };
 type SegmentStyle = {
     color?: CSSProperties['color'];
+    colorOff?: CSSProperties['color'];
     length?: CSSProperties['width'];
     thickness?: CSSProperties['width'];
     spacing?: CSSProperties['width'];
     filament?: CSSProperties['width'];
     opacityOn?: CSSProperties['opacity'];
     opacityOff?: CSSProperties['opacity'];
-    opacityDuration?: CSSProperties['transitionDuration'];
+    transitionDuration?: CSSProperties['transitionDuration'];
 };
 export type Digit = DivProps & DigitProps & {
     segmentStyle?: SegmentStyle;

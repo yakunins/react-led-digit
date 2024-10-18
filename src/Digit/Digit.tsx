@@ -13,12 +13,12 @@ type DigitProps = {
    */
   off?: boolean;
   /*
-   * Shape of the segment. Default is "undefined", meaning...
+   * Shape of the segment. Default is "default", meaning...
    * For 7-segment digit default shape is diamond.
-   * For colon and dot values default shape is circle.
-   * For am-pm value default is letters with no background.
+   * For colon and dot default shape is circle.
+   * For ampm default shape is letters with no background, otherwise filled.
    */
-  shape?: 'arduino' | 'diamond' | 'rect' | 'round' | 'pill';
+  shape?: 'default' | 'rect' | 'round' | 'pill';
   /*
    * If number or character (like "L"), renders itself as 7-segment digit.
    * If ":", "." or "am"/"pm", renders itself as colon digit or dot
@@ -56,7 +56,10 @@ type SegmentStyle = {
    */
   opacityOn?: CSSProperties['opacity'];
   opacityOff?: CSSProperties['opacity'];
-  opacityDuration?: CSSProperties['transitionDuration'];
+  /*
+   * Segment's color and opacity transition duration, default is .25s
+   */
+  transitionDuration?: CSSProperties['transitionDuration'];
 };
 
 export type Digit = DivProps & DigitProps & { segmentStyle?: SegmentStyle };
@@ -73,7 +76,7 @@ export const Digit = ({ segmentStyle, value, ...rest }: Digit) => {
     '--segment-filament': segmentStyle?.filament,
     '--segment-opacity-on': segmentStyle?.opacityOn,
     '--segment-opacity-off': segmentStyle?.opacityOff,
-    '--segment-opacity-duration': segmentStyle?.opacityDuration,
+    '--segment-transition-duration': segmentStyle?.transitionDuration,
     ...rest.style,
   } as CSSProperties;
 
@@ -105,7 +108,7 @@ type DigitSegments = DivProps & {
 const DigitSegments = ({
   className,
   off,
-  shape,
+  shape = 'default',
   A,
   B,
   C,
@@ -150,7 +153,7 @@ type AmpmSegments = DivProps & {
 const AmpmSegments = ({
   className,
   off,
-  shape,
+  shape = 'default',
   AM,
   PM,
   ...rest
@@ -174,7 +177,7 @@ type ColonSegments = DivProps & {
 const ColonSegments = ({
   className,
   off,
-  shape = 'pill',
+  shape = 'default',
   D1,
   D2,
   ...rest
@@ -197,7 +200,7 @@ type DotSegments = DivProps & {
 const DotSegments = ({
   className,
   off,
-  shape = 'pill',
+  shape = 'default',
   DP,
   ...rest
 }: DotSegments) => {

@@ -1,14 +1,16 @@
 {
   "name": "react-led-digit",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "./lib/index.js",
   "files": [
     "lib/**/*"
   ],
   "scripts": {
-    "build": "tsc --project tsconfig.build.json",
-    "clean": "rm -rf ./lib/",
+    "build": "npm run clean && npm run build-ts && npm run copy-css",
+    "build-ts": "tsc --project tsconfig.build.json",
+    "clean": "rimraf lib",
+    "copy-css": "npx cpy src/**/*.css lib",
     "lint": "eslint ./src/ --fix",
     "semantic-release": "semantic-release",
     "test:watch": "jest --watch",
@@ -19,7 +21,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yakunins/react-digit.git"
+    "url": "git+https://github.com/yakunins/react-led-digit.git"
   },
   "license": "MIT",
   "author": {
@@ -55,6 +57,7 @@
     "@typescript-eslint/eslint-plugin": "^7.16.1",
     "@typescript-eslint/parser": "^7.16.1",
     "classnames": "^2.5.1",
+    "cpy-cli": "^5.0.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
@@ -64,6 +67,7 @@
     "prettier": "^3.3.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "rimraf": "^6.0.1",
     "semantic-release": "^22.0.12",
     "storybook": "^8.2.4",
     "ts-jest": "^29.2.3",
