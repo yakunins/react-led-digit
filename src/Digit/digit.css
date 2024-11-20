@@ -50,40 +50,46 @@
     min-width: var(--thick);
   }
 
-  & .opacity-wrapper {
+  .opacity-wrapper {
     position: absolute;
     width: 100%;
     height: 100%;
   }
 
-  & .opacity-wrapper,
-  & .opacity-wrapper .segment {
+  .opacity-wrapper,
+  .opacity-wrapper .segment {
     transition-property: background-color, border-color, opacity, visibility;
     transition-duration: var(--transition-duration);
   }
 
-  & .opacity-wrapper.on .segment.off,
-  & .opacity-wrapper.off.on .segment.off,
-  & .opacity-wrapper.off .segment.on {
+  .opacity-wrapper.off.on .segment.off,
+  .opacity-wrapper.on .segment.off,
+  .opacity-wrapper.off .segment.on {
     visibility: hidden;
   }
-  & .opacity-wrapper.off .segment.off,
-  & .opacity-wrapper.on .segment.on {
+  .opacity-wrapper.off .segment.off,
+  .opacity-wrapper.on .segment.on {
     visibility: visible;
   }
 
-  & .opacity-wrapper.on {
+  .opacity-wrapper.on {
     opacity: var(--opacity-on);
   }
-  & .opacity-wrapper.off {
+  .opacity-wrapper.off {
     opacity: var(--opacity-off);
   }
-  & .opacity-wrapper.off.on {
+  .opacity-wrapper.off.on {
+    opacity: 0;
+  }
+  .opacity-wrapper.on:not(.off) .segment.on {
+    opacity: 1;
+  }
+  .opacity-wrapper.on:not(.off) .segment.off {
     opacity: 0;
   }
 
   /* segments */
-  & .segment {
+  .segment {
     --th-half-100: calc(100% - var(--th-half));
 
     background-color: var(--color);
@@ -183,7 +189,7 @@
         contain;
     }
 
-    & .AM {
+    .AM {
       bottom: calc(var(--digit-height) / 2 + var(--thick) / 4);
       mask-image: var(--svg-am);
     }
@@ -193,7 +199,7 @@
       mask-composite: exclude;
       mask-image: var(--svg-am), linear-gradient(var(--color) 0 0);
     }
-    & .PM {
+    .PM {
       top: calc(var(--digit-height) / 2 + var(--thick) / 4);
       mask-image: var(--svg-pm);
     }
@@ -225,15 +231,15 @@
       left: calc(var(--digit-width) / 2 - var(--dot-border-width));
     }
     /* lower part of a colon */
-    & .segment.D1 {
+    .segment.D1 {
       top: calc(var(--digit-height) / 3 - var(--thick) / 2);
     }
     /* upper part of a colon */
-    & .segment.D2 {
+    .segment.D2 {
       bottom: calc(var(--digit-height) / 3 - var(--thick) / 2);
     }
     /* dot itself */
-    & .segment.DP {
+    .segment.DP {
       bottom: 0;
     }
   }

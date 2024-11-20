@@ -285,7 +285,7 @@ const Display = React.memo(({ scale = 1, value, ...rest }: DisplayProps) => {
               fontSize: `${scale * 100}%`,
             }}
             segmentStyle={{
-              colorOff: 'red',
+              color: 'green',
             }}
           />
         );
