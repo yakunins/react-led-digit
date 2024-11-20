@@ -21,15 +21,15 @@ type Story = StoryObj<typeof meta>;
 
 const StyledDigit = ({ value, ...rest }) => {
   return (
-    <BlinkingDigit
+    <Digit
       {...rest}
       value={value}
       shape="pill"
       segmentStyle={{
-        thickness: '.25em',
-        length: '1.5em',
-        spacing: '0.25em',
-        filament: '.0625em',
+        thickness: '.25rem',
+        length: '1.5rem',
+        spacing: '0.25rem',
+        filament: '.0625rem',
       }}
     />
   );
@@ -52,13 +52,13 @@ const DigitTest = () => {
           value={1}
           shape="round"
           segmentStyle={{
-            thickness: '.35em',
+            thickness: '.35rem',
             color: 'green',
             colorOff: 'blue',
           }}
         />
-        <Digit value={2} shape="pill" segmentStyle={{ thickness: '.5em' }} />
-        <Digit value={3} shape="rect" segmentStyle={{ spacing: '.25em' }} />
+        <Digit value={2} shape="pill" segmentStyle={{ thickness: '.5rem' }} />
+        <Digit value={3} shape="rect" segmentStyle={{ spacing: '.25rem' }} />
         <Digit value={4} style={{ color: 'red' }} />
         <Digit value=":" />
         <Digit value={5} />
@@ -70,7 +70,7 @@ const DigitTest = () => {
         <Digit value="pm" />
       </div>
       <div style={grid}>
-        <BlinkingDigit value="pm" />
+        <BlinkingDigit value="pm" blinkOptions={{ period: 2000 }} />
         <BlinkingDigit value=":" shape="round" />
         <BlinkingDigit value="pm" shape="rect" />
         <BlinkingDigit value="am" shape="round" />
@@ -78,12 +78,23 @@ const DigitTest = () => {
         <BlinkingDigit value="pm" shape="pill" />
         <BlinkingDigit value="-" shape="pill" />
         <BlinkingDigit value="_" shape="pill" />
+        <BlinkingDigit
+          value={2}
+          shape="pill"
+          segmentStyle={{ thickness: '.5rem' }}
+        />
+        <BlinkingDigit
+          value=":"
+          shape="pill"
+          segmentStyle={{ thickness: '1rem' }}
+        />
       </div>
       <div style={grid}>
         <Digit value="A" />
         <Digit value="C" />
         <Digit value="E" />
         <Digit value="F" />
+        <Digit value="G" />
         <Digit value="H" />
         <Digit value="J" />
         <Digit value="L" />
@@ -131,6 +142,8 @@ const DigitTest = () => {
         <StyledDigit value="P" />
         <StyledDigit value="U" />
         <StyledDigit value="Y" />
+      </div>
+      <div style={grid}>
         <StyledDigit value="c" />
         <StyledDigit value="b" />
         <StyledDigit value="d" />
@@ -139,6 +152,18 @@ const DigitTest = () => {
         <StyledDigit value="o" />
         <StyledDigit value="r" />
         <StyledDigit value="u" />
+        <BlinkingDigit
+          value="2"
+          shape="round"
+          segmentStyle={{
+            color: 'green',
+            colorOff: 'red',
+            length: '1.5rem',
+            spacing: '-0.025rem',
+            thickness: '0.5rem',
+            opacityOff: 0.2,
+          }}
+        />
       </div>
     </>
   );
@@ -194,8 +219,8 @@ const BlinkingDigitTest = () => {
   return (
     <>
       <style>{`.digit {outline: 0.1px solid rgba(255, 0, 0, 0.2);}`}</style>
-      <style>{`input { border: 1px solid black; border-radius: .5em; padding: .5rem .25rem;}`}</style>
-      <style>{`button { border: none; border-radius: .5em; padding: .5rem 1rem;}`}</style>
+      <style>{`input { border: 1px solid black; border-radius: .5rem; padding: .5rem .25rem;}`}</style>
+      <style>{`button { border: none; border-radius: .5rem; padding: .5rem 1rem;}`}</style>
       <style>{`button, input, p { font-size: 100%; font-family: sans-serif; margin: .25rem;}`}</style>
       <p>charset: {Array.from(charset).join(', ')}</p>
       <input
@@ -214,7 +239,7 @@ const BlinkingDigitTest = () => {
             key={idx}
             value={char as Digit['value']}
             onClick={() => removeDigit(idx)}
-            blink={{
+            blinkOptions={{
               period: 2000,
               ratio: 3,
             }}
@@ -292,7 +317,7 @@ export const Clock: Story = {
   render: SimpleClock,
 };
 
-export const Pimary: Story = {
+export const Digits: Story = {
   args: {
     value: '0',
   },

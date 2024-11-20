@@ -14,8 +14,7 @@
   --thick: var(--segment-thickness, 0.25em); /* 4px */
   --length: var(--segment-length, 1em);
   --spacing: var(--segment-spacing, 0.0625em); /* 1px */
-  --filament: var(--segment-filament, 0); /* vertical shift of A and D */
-  --corner: var(--segment-corner, 0); /* vertical shift of A and D */
+  --filament: var(--segment-filament, 0); /* vertical shift of segments A,D */
   --opacity-on: var(--segment-opacity-on, 1);
   --opacity-off: var(--segment-opacity-off, 0.1);
   --transition-duration: var(--segment-transition-duration, 0.25s);
@@ -57,27 +56,30 @@
     height: 100%;
   }
 
-  & .opacity-wrapper.on .segment.off,
-  & .opacity-wrapper.off .segment.on {
-    opacity: 0;
-  }
-  & .opacity-wrapper.on .segment.on,
-  & .opacity-wrapper.off .segment.off {
-    opacity: 1;
+  & .opacity-wrapper,
+  & .opacity-wrapper .segment {
+    transition-property: background-color, border-color, opacity, visibility;
+    transition-duration: var(--transition-duration);
   }
 
-  & .opacity-wrapper.on,
-  & .segment.on {
+  & .opacity-wrapper.on .segment.off,
+  & .opacity-wrapper.off.on .segment.off,
+  & .opacity-wrapper.off .segment.on {
+    visibility: hidden;
+  }
+  & .opacity-wrapper.off .segment.off,
+  & .opacity-wrapper.on .segment.on {
+    visibility: visible;
+  }
+
+  & .opacity-wrapper.on {
     opacity: var(--opacity-on);
   }
-  & .opacity-wrapper.off,
-  & .segment.off {
+  & .opacity-wrapper.off {
     opacity: var(--opacity-off);
   }
-
-  & .segment {
-    transition-property: opacity, background-color, border-color;
-    transition-duration: var(--transition-duration);
+  & .opacity-wrapper.off.on {
+    opacity: 0;
   }
 
   /* segments */

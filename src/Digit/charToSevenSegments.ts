@@ -7,6 +7,7 @@ type DigitLetter =
   | 'C'
   | 'E'
   | 'F'
+  | 'G'
   | 'H'
   | 'J'
   | 'L'
@@ -22,6 +23,7 @@ type DigitLetter =
   | 'n'
   | 'o'
   | 'r'
+  | 't'
   | 'u';
 
 /**
@@ -53,6 +55,7 @@ export const charToSevenSegments: {
   C: 'ADEF',
   E: 'ADEFG',
   F: 'AEFG',
+  G: 'ACDEF',
   H: 'BCEFG',
   J: 'BCDE',
   L: 'DEF',
@@ -68,5 +71,6 @@ export const charToSevenSegments: {
   n: 'CEG',
   o: 'CDEG',
   r: 'EG',
+  t: 'DEFG',
   u: 'CDE',
 };

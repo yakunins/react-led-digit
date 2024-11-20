@@ -44,7 +44,7 @@ type SegmentStyle = {
    */
   thickness?: CSSProperties['width'];
   /*
-   * Spacing between segments. Might be negative.
+   * Spacing between segments, may be negative
    */
   spacing?: CSSProperties['width'];
   /*
@@ -121,22 +121,22 @@ const DigitSegments = ({
   return (
     <div className={cx('digit', shapeCx(shape), className)} {...rest}>
       <div className="opacity-wrapper off">
-        <i className={cx(onOffCx(A, off), 'segment A horizontal')}></i>
-        <i className={cx(onOffCx(B, off), 'segment B vertical')}></i>
-        <i className={cx(onOffCx(C, off), 'segment C vertical')}></i>
-        <i className={cx(onOffCx(D, off), 'segment D horizontal')}></i>
-        <i className={cx(onOffCx(E, off), 'segment E vertical')}></i>
-        <i className={cx(onOffCx(F, off), 'segment F vertical')}></i>
-        <i className={cx(onOffCx(G, off), 'segment G horizontal')}></i>
+        <i className={cx('segment A horizontal', onOffCx(A, off))}></i>
+        <i className={cx('segment B vertical', onOffCx(B, off))}></i>
+        <i className={cx('segment C vertical', onOffCx(C, off))}></i>
+        <i className={cx('segment D horizontal', onOffCx(D, off))}></i>
+        <i className={cx('segment E vertical', onOffCx(E, off))}></i>
+        <i className={cx('segment F vertical', onOffCx(F, off))}></i>
+        <i className={cx('segment G horizontal', onOffCx(G, off))}></i>
       </div>
-      <div className="opacity-wrapper on">
-        <i className={cx(onOffCx(A, off), 'segment A horizontal')}></i>
-        <i className={cx(onOffCx(B, off), 'segment B vertical')}></i>
-        <i className={cx(onOffCx(C, off), 'segment C vertical')}></i>
-        <i className={cx(onOffCx(D, off), 'segment D horizontal')}></i>
-        <i className={cx(onOffCx(E, off), 'segment E vertical')}></i>
-        <i className={cx(onOffCx(F, off), 'segment F vertical')}></i>
-        <i className={cx(onOffCx(G, off), 'segment G horizontal')}></i>
+      <div className={cx('opacity-wrapper on', off && 'off')}>
+        <i className={cx('segment A horizontal', onOffCx(A, off))}></i>
+        <i className={cx('segment B vertical', onOffCx(B, off))}></i>
+        <i className={cx('segment C vertical', onOffCx(C, off))}></i>
+        <i className={cx('segment D horizontal', onOffCx(D, off))}></i>
+        <i className={cx('segment E vertical', onOffCx(E, off))}></i>
+        <i className={cx('segment F vertical', onOffCx(F, off))}></i>
+        <i className={cx('segment G horizontal', onOffCx(G, off))}></i>
       </div>
     </div>
   );
@@ -160,8 +160,14 @@ const AmpmSegments = ({
 }: AmpmSegments) => {
   return (
     <div className={cx('digit ampm', shapeCx(shape), className)} {...rest}>
-      <i className={cx('segment AM', onOffCx(AM, off))}></i>
-      <i className={cx('segment PM', onOffCx(PM, off))}></i>
+      <div className="opacity-wrapper off">
+        <i className={cx('segment AM', onOffCx(AM, off))}></i>
+        <i className={cx('segment PM', onOffCx(PM, off))}></i>
+      </div>
+      <div className={cx('opacity-wrapper on', off && 'off')}>
+        <i className={cx('segment AM', onOffCx(AM, off))}></i>
+        <i className={cx('segment PM', onOffCx(PM, off))}></i>
+      </div>
     </div>
   );
 };
@@ -184,8 +190,14 @@ const ColonSegments = ({
 }: ColonSegments) => {
   return (
     <div className={cx('digit colon', shapeCx(shape), className)} {...rest}>
-      <i className={cx('segment D1', onOffCx(D1, off))}></i>
-      <i className={cx('segment D2', onOffCx(D2, off))}></i>
+      <div className="opacity-wrapper off">
+        <i className={cx('segment D1', onOffCx(D1, off))}></i>
+        <i className={cx('segment D2', onOffCx(D2, off))}></i>
+      </div>
+      <div className={cx('opacity-wrapper on', off && 'off')}>
+        <i className={cx('segment D1', onOffCx(D1, off))}></i>
+        <i className={cx('segment D2', onOffCx(D2, off))}></i>
+      </div>
     </div>
   );
 };
@@ -206,7 +218,12 @@ const DotSegments = ({
 }: DotSegments) => {
   return (
     <div className={cx('digit dot', shapeCx(shape), className)} {...rest}>
-      <i className={cx('segment DP', onOffCx(DP, off))}></i>
+      <div className="opacity-wrapper off">
+        <i className={cx('segment DP', onOffCx(DP, off))}></i>
+      </div>
+      <div className={cx('opacity-wrapper on', off && 'off')}>
+        <i className={cx('segment DP', onOffCx(DP, off))}></i>
+      </div>
     </div>
   );
 };
