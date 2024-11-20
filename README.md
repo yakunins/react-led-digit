@@ -1,15 +1,16 @@
-<img src="images/react-led-digit.gif" width="740" alt="react led digit" />
+<img src="images/react-led-digit.gif" width="576" alt="react led digit" />
 
 # React Seven-Segment Digit Component
 
 Intended to use in digital clock or calculator.  
 HTML and CSS only.  
-→ (Codesandbox playground)[https://codesandbox.io/p/sandbox/friendly-dewdney-7jvh5w]
+→ [Codesandbox playground](https://codesandbox.io/p/sandbox/friendly-dewdney-7jvh5w)
 
 Use example:
 
 ```tsx
 import { Digit, BlinkingDigit } from 'react-led-digit';
+import 'react-led-digit/lib/Digit/digit.css';
 
 <div className="digital-clock">
   <Digit value="0" />
