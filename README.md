@@ -1,7 +1,10 @@
+<img src="images/react-led-digit.gif" width="740" alt="react led digit" />
+
 # React Seven-Segment Digit Component
 
-Intended to use in digital clock or calculator.
-Pure HTML and CSS
+Intended to use in digital clock or calculator.  
+HTML and CSS only.  
+→ (Codesandbox playground)[https://codesandbox.io/p/sandbox/friendly-dewdney-7jvh5w]
 
 Use example:
 
