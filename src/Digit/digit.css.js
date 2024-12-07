@@ -1,3 +1,9 @@
+/* This file is auto-generated */
+
+const css = {
+  src: `src/Digit/digit.css`,
+  hash: `21rs68w6m0r`,
+  content: `
 /**
  *    A
  *  F   B      D2      AM
@@ -321,3 +327,8 @@
     }
   }
 }
+`,
+};
+
+export default css;
+

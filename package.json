@@ -1,23 +1,26 @@
 {
   "name": "react-led-digit",
-  "version": "0.0.6",
-  "description": "",
+  "version": "0.0.7",
+  "description": "react component for 7-segment display (digit), includes dot, colon and am-pm digits",
   "main": "./lib/index.js",
   "files": [
     "lib/**/*"
   ],
   "scripts": {
-    "build": "npm run clean && npm run build-ts && npm run copy-css",
+    "build": "npm-run-all clean css-to-js build-ts css-copy",
+    "build-storybook": "storybook build",
     "build-ts": "tsc --project tsconfig.build.json",
     "clean": "rimraf lib",
-    "copy-css": "npx cpy src/**/*.css lib",
+    "css-copy": "npx cpy src/**/*.css lib",
+    "css-to-js-watch": "node css-to-js --watch",
+    "css-to-js": "node css-to-js",
+    "dev": "npm-run-all --parallel storybook css-to-js-watch",
     "lint": "eslint ./src/ --fix",
     "semantic-release": "semantic-release",
+    "storybook": "storybook dev -p 6006 && npm run css-to-js-watch",
     "test:watch": "jest --watch",
     "test": "jest --coverage",
-    "typecheck": "tsc --noEmit",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "typecheck": "tsc --noEmit"
   },
   "repository": {
     "type": "git",
@@ -34,17 +37,15 @@
     "node": ">=12.0"
   },
   "keywords": [
-    "react",
+    "7-segment",
     "led",
     "digit",
+    "react",
     "component",
-    "7-segment",
-    "digital",
+    "seven-segments",
+    "display",
     "clock"
   ],
-  "dependencies": {
-    "classnames": "^2.5.1"
-  },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.6.1",
     "@storybook/addon-essentials": "^8.2.4",
@@ -59,6 +60,8 @@
     "@types/node": "^18.19.41",
     "@typescript-eslint/eslint-plugin": "^7.16.1",
     "@typescript-eslint/parser": "^7.16.1",
+    "chokidar": "^4.0.1",
+    "clsx": "^2.1.1",
     "cpy-cli": "^5.0.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
@@ -66,6 +69,7 @@
     "eslint-plugin-storybook": "^0.8.0",
     "jest": "^29.7.0",
     "lint-staged": "^15.2.7",
+    "npm-run-all": "^4.1.5",
     "prettier": "^3.3.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

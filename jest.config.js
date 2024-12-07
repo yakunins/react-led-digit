@@ -1,5 +1,5 @@
 module.exports = {
-  preset: 'ts-jest',
+  preset: 'ts-jest/presets/js-with-ts', // 'ts-jest',
   testEnvironment: 'node',
   testMatch: ['**/test/**/*.spec.ts'],
   collectCoverageFrom: [

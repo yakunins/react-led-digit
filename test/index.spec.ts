@@ -1,13 +1,11 @@
-import { myPackage } from '../src';
+import { Blinker } from '../src';
 
 describe('index', () => {
-  describe('myPackage', () => {
-    it('should return a string containing the message', () => {
-      const message = 'Hello';
-
-      const result = myPackage(message);
-
-      expect(result).toMatch(message);
+  describe('Blinker', () => {
+    it('should return blinking instance', () => {
+      const blinker = new Blinker();
+      expect(blinker.visible ? 'on' : 'off').toMatch('on');
+      blinker.stop(); // close handler
     });
   });
 });

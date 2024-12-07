@@ -27,13 +27,11 @@ type DigitLetter =
   | 'u';
 
 /**
- *
  *   A
  * F   B      D2      AM
  *   G
  * E   C      D1      PM
  *   D       DP
- *
  */
 
 export const charToSevenSegments: {

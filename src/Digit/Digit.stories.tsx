@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Digit } from './Digit';
-import { BlinkingDigit } from '../';
+
+import { Digit, BlinkingDigit, Blinker } from '../';
 import { charToSevenSegments } from './';
 
 const meta = {
@@ -19,7 +19,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const StyledDigit = ({ value, ...rest }) => {
+const CustomDigit = ({ value, ...rest }) => {
   return (
     <Digit
       {...rest}
@@ -115,12 +115,12 @@ const DigitTest = () => {
         <Digit value="u" />
       </div>
       <div style={grid}>
-        <StyledDigit value={0} />
-        <StyledDigit value={1} />
-        <StyledDigit type="colon" value=":" />
-        <StyledDigit value={2} />
-        <StyledDigit value={3} />
-        <StyledDigit type="ampm" value="am" />
+        <CustomDigit value={0} />
+        <CustomDigit value={1} />
+        <CustomDigit type="colon" value=":" />
+        <CustomDigit value={2} />
+        <CustomDigit value={3} />
+        <CustomDigit type="ampm" value="am" />
       </div>
       <div style={grid}>
         <Digit value="E" />
@@ -131,27 +131,27 @@ const DigitTest = () => {
         <Digit value="." />
       </div>
       <div style={grid}>
-        <StyledDigit value="A" />
-        <StyledDigit value="C" />
-        <StyledDigit value="E" />
-        <StyledDigit value="F" />
-        <StyledDigit value="H" />
-        <StyledDigit value="J" />
-        <StyledDigit value="L" />
-        <StyledDigit value="O" />
-        <StyledDigit value="P" />
-        <StyledDigit value="U" />
-        <StyledDigit value="Y" />
+        <CustomDigit value="A" />
+        <CustomDigit value="C" />
+        <CustomDigit value="E" />
+        <CustomDigit value="F" />
+        <CustomDigit value="H" />
+        <CustomDigit value="J" />
+        <CustomDigit value="L" />
+        <CustomDigit value="O" />
+        <CustomDigit value="P" />
+        <CustomDigit value="U" />
+        <CustomDigit value="Y" />
       </div>
       <div style={grid}>
-        <StyledDigit value="c" />
-        <StyledDigit value="b" />
-        <StyledDigit value="d" />
-        <StyledDigit value="h" />
-        <StyledDigit value="n" />
-        <StyledDigit value="o" />
-        <StyledDigit value="r" />
-        <StyledDigit value="u" />
+        <CustomDigit value="c" />
+        <CustomDigit value="b" />
+        <CustomDigit value="d" />
+        <CustomDigit value="h" />
+        <CustomDigit value="n" />
+        <CustomDigit value="o" />
+        <CustomDigit value="r" />
+        <CustomDigit value="u" />
         <BlinkingDigit
           value="2"
           shape="round"
@@ -218,10 +218,14 @@ const BlinkingDigitTest = () => {
 
   return (
     <>
-      <style>{`.digit {outline: 0.1px solid rgba(255, 0, 0, 0.2);}`}</style>
-      <style>{`input { border: 1px solid black; border-radius: .5rem; padding: .5rem .25rem;}`}</style>
-      <style>{`button { border: none; border-radius: .5rem; padding: .5rem 1rem;}`}</style>
-      <style>{`button, input, p { font-size: 100%; font-family: sans-serif; margin: .25rem;}`}</style>
+      <style>
+        {`
+          .digit { outline: 0.1px solid rgba(255, 0, 0, 0.2); }
+          input { border: 1px solid black; border-radius: .5rem; padding: .5rem .25rem;}
+          button { border: none; border-radius: .5rem; padding: .5rem 1rem;}
+          button, input, p { font-size: 100%; font-family: sans-serif; margin: .25rem;}
+        `}
+      </style>
       <p>charset: {Array.from(charset).join(', ')}</p>
       <input
         type="text"
@@ -232,20 +236,24 @@ const BlinkingDigitTest = () => {
       />
       <button onClick={addDigit}>Add digit</button>
       <div style={gridStyle}>
+        <Digit value="8" segmentStyle={{ thickness: '.35rem' }} />
         <Digit value="b" />
-        <BlinkingDigit value=":" />
+        <BlinkingDigit
+          value=":"
+          blinkOptions={{
+            period: 2000,
+            ratio: 3,
+          }}
+        />
         {dgts.split('').map((char, idx) => (
           <BlinkingDigit
             key={idx}
             value={char as Digit['value']}
             onClick={() => removeDigit(idx)}
-            blinkOptions={{
-              period: 2000,
-              ratio: 3,
-            }}
             segmentStyle={{
               transitionDuration: '0.5s',
             }}
+            blinkOptions={{ sync: false }}
           />
         ))}
       </div>
@@ -270,44 +278,47 @@ const getDigits = (str: string): Digit['value'][] => {
   return result;
 };
 
-const Display = React.memo(({ scale = 1, value, ...rest }: DisplayProps) => {
+const Display = ({ scale = 1, value, ...rest }: DisplayProps) => {
   const digits = getDigits(value);
   return (
     <div {...rest}>
       {digits.map((digit, idx) => {
-        const d = digit.toString();
-        return (
-          <BlinkingDigit
-            key={idx}
-            value={digit}
-            off={':.-'.includes(d) ? undefined : false}
-            style={{
-              fontSize: `${scale * 100}%`,
-            }}
-            segmentStyle={{
-              color: 'green',
-            }}
-          />
-        );
+        const props: Digit = {
+          value: digit,
+          style: {
+            fontSize: `${scale * 100}%`,
+          },
+          segmentStyle: {
+            color: 'green',
+            cornerShift: 'calc(var(--thickness) / 8)',
+          },
+        };
+        if (digit === ':') {
+          return <BlinkingDigit key={idx} {...props} />;
+        } else {
+          return <Digit key={idx} {...props} />;
+        }
       })}
     </div>
   );
-});
+};
 
 const getTime = () => new Date().toLocaleTimeString();
 
 const SimpleClock = () => {
   const [time, setTime] = useState(getTime());
 
-  useEffect(() => {
-    const i = setInterval(() => {
-      setTime(getTime());
-    }, 1000);
+  const blinker = new Blinker();
+  blinker.period = 2000;
+  blinker.ratio = 1;
+  const handleBlinkerChange = () => setTime(getTime());
 
-    return () => clearInterval(i);
+  useEffect(() => {
+    blinker.subscribe(handleBlinkerChange);
+    return () => blinker.unsubscribe(handleBlinkerChange);
   }, []);
 
-  return <Display style={gridStyle} value={time} />;
+  return <Display scale={2} style={gridStyle} value={time} />;
 };
 
 export const Clock: Story = {
