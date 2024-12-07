@@ -1,21 +1,26 @@
+/**
+ * Switches intrnal state periodically (visible), calling subscribers each time.
+ */
+
 type BlinkerSubscriber = (state: BlinkerState['visible']) => void;
 type BlinkerState = {
   timeout: null | ReturnType<typeof setTimeout>;
   subscribers: BlinkerSubscriber[];
-  period: number;
   ratio: number;
+  period: number;
   visible: boolean;
-  blinks: number;
 };
 type BlinkerOptions = {
   // Start blinking without explicit run() call, default is true
   autoRun?: boolean;
+  // On to off ratio, e.g. ratio of visible phase to hidden phase, default is 1
+  ratio?: BlinkerState['ratio'];
   // Blink period, milliseconds, default is 1000
   period?: BlinkerState['period'];
-  // Ratio of visible period duration to hidden period duration, default is 1
-  ratio?: BlinkerState['ratio'];
   // Visibility state, default is true
   visible?: BlinkerState['visible'];
+  // If true (default), new Blinker() to return single instance, in order to sync multiple blinking components
+  singleton?: boolean;
 };
 
 const defaultOptions: BlinkerOptions = {
@@ -23,29 +28,36 @@ const defaultOptions: BlinkerOptions = {
   period: 1000,
   ratio: 1,
   visible: true,
+  singleton: true,
 };
 
 export class Blinker {
-  private static instance: Blinker; // singletone has only one instance
+  private static instance: Blinker; // singleton has only one instance
 
-  #initOptions: BlinkerOptions = defaultOptions; // store options
+  #options: BlinkerOptions = defaultOptions; // initial options
   #state: BlinkerState = {
-    timeout: null,
-    subscribers: [],
-    period: defaultOptions.period!,
     ratio: defaultOptions.ratio!,
+    period: defaultOptions.period!,
+    subscribers: [],
+    timeout: null,
     visible: defaultOptions.visible!,
-    blinks: 0,
   };
 
   constructor(options = defaultOptions) {
+    const init = () => {
+      this.#options = { ...this.#options, ...options }; // merge options
+      this.#state.period = this.#options.period!;
+      this.#state.ratio = this.#options.ratio!;
+      this.#state.visible = this.#options.visible!;
+      if (this.#options.autoRun) this.start();
+    };
+    if (options.singleton === false) {
+      init();
+      return this;
+    }
     if (!Blinker.instance) {
       Blinker.instance = this;
-      this.#initOptions = { ...defaultOptions, ...options };
-      this.#state.period = this.#initOptions.period!;
-      this.#state.ratio = this.#initOptions.ratio!;
-      this.#state.visible = this.#initOptions.visible!;
-      if (this.#initOptions.autoRun) this.start();
+      init();
     }
     return Blinker.instance;
   }
@@ -79,7 +91,6 @@ export class Blinker {
   }
 
   #on() {
-    this.#state.blinks++;
     this.#state.visible = true;
     this.#state.subscribers.forEach(fn => fn(true));
     this.#state.timeout = setTimeout(() => {
@@ -87,7 +98,6 @@ export class Blinker {
     }, getPeriod(this.#state).on);
   }
   #off() {
-    this.#state.blinks++;
     this.#state.visible = false;
     this.#state.subscribers.forEach(fn => fn(false));
     this.#state.timeout = setTimeout(() => {
@@ -96,12 +106,14 @@ export class Blinker {
   }
 
   start(visible = this.#state.visible) {
-    if (this.#state.timeout) this.stop();
+    if (this.#state.timeout) return; // already runnning
     visible ? this.#on() : this.#off(); // start blinking
   }
   stop() {
-    this.#state.timeout && clearTimeout(this.#state.timeout);
-    this.#state.timeout = null;
+    if (this.#state.timeout) {
+      clearTimeout(this.#state.timeout);
+      this.#state.timeout = null;
+    }
   }
   subscribe(fn: BlinkerSubscriber) {
     if (!this.#state.subscribers.includes(fn)) {
@@ -113,10 +125,12 @@ export class Blinker {
   }
 }
 
+// ratio=1, tot=2, on=0.5, off=0.5
+// ratio=2, tot=3, on=0.66, off=0.33
 function getPeriod(state: BlinkerState) {
   const total = state.ratio + 1;
   return {
-    on: state.period * (1 / total),
-    off: state.period * (1 - 1 / total),
+    on: state.period * (1 - 1 / total),
+    off: state.period * (1 / total),
   };
 }
