@@ -26,11 +26,10 @@ const grid = {
   placeItems: 'center center',
 };
 
-const CustomDigit = ({ value, ...rest }) => {
+const CustomDigit = ({ ...rest }: Digit) => {
   return (
     <Digit
       {...rest}
-      value={value}
       shape="pill"
       segmentStyle={{
         thickness: '.25rem',
@@ -117,10 +116,10 @@ const DigitTest = () => {
       <div style={grid}>
         <CustomDigit value={0} />
         <CustomDigit value={1} />
-        <CustomDigit type="colon" value=":" />
+        <CustomDigit value=":" />
         <CustomDigit value={2} />
         <CustomDigit value={3} />
-        <CustomDigit type="ampm" value="am" />
+        <CustomDigit value="am" />
       </div>
       <div style={grid}>
         <Digit value="E" />
@@ -170,7 +169,7 @@ const DigitTest = () => {
 };
 
 const charset = new Set(Object.keys(charToSevenSegments));
-function setCharAt(str, index, chr) {
+function setCharAt(str: string, index: number, chr: string) {
   if (index > str.length - 1) return str;
   return str.substr(0, index) + chr + str.substr(index + 1);
 }
@@ -185,7 +184,7 @@ const BlinkingDigitTest = () => {
     }
   };
 
-  const removeDigit = idx => {
+  const removeDigit = (idx: number) => {
     const next = setCharAt(dgts, idx, '');
     setDgts(next);
   };
@@ -196,7 +195,7 @@ const BlinkingDigitTest = () => {
     }
   };
 
-  const handleInputKeypress = e => {
+  const handleInputKeypress = (e: KeyboardEvent) => {
     if (e.key === 'Enter') {
       addDigit();
     }

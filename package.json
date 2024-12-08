@@ -1,6 +1,6 @@
 {
   "name": "react-led-digit",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "react component for 7-segment display (digit), includes dot, colon and am-pm digits",
   "main": "./lib/index.js",
   "files": [
@@ -11,7 +11,7 @@
     "build-storybook": "storybook build",
     "build-ts": "tsc --project tsconfig.build.json",
     "clean": "rimraf lib",
-    "css-copy": "npx cpy src/**/*.css lib",
+    "css-copy": "npx cpy src/**/*.css lib && npx cpy src/**/*.css.* lib",
     "css-to-js-watch": "node css-to-js --watch",
     "css-to-js": "node css-to-js",
     "dev": "npm-run-all --parallel storybook css-to-js-watch",
