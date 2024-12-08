@@ -1,6 +1,6 @@
 {
   "name": "react-led-digit",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "react component for 7-segment display (digit), includes dot, colon and am-pm digits",
   "main": "./lib/index.js",
   "files": [
@@ -36,16 +36,9 @@
   "engines": {
     "node": ">=12.0"
   },
-  "keywords": [
-    "7-segment",
-    "led",
-    "digit",
-    "react",
-    "component",
-    "seven-segments",
-    "display",
-    "clock"
-  ],
+  "dependencies": {
+    "clsx": "^2.1.1"
+  },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.6.1",
     "@storybook/addon-essentials": "^8.2.4",
@@ -61,7 +54,6 @@
     "@typescript-eslint/eslint-plugin": "^7.16.1",
     "@typescript-eslint/parser": "^7.16.1",
     "chokidar": "^4.0.1",
-    "clsx": "^2.1.1",
     "cpy-cli": "^5.0.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
@@ -79,6 +71,16 @@
     "ts-jest": "^29.2.3",
     "typescript": "^5.5.3"
   },
+  "keywords": [
+    "7-segment",
+    "led",
+    "digit",
+    "react",
+    "component",
+    "seven-segments",
+    "display",
+    "clock"
+  ],
   "lint-staged": {
     "*.ts": "eslint --cache --cache-location .eslintcache --fix"
   },

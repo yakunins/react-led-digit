@@ -61,7 +61,7 @@ const css = {
   hash: \`${hash(text)}\`,
   content: \`\n${text}\`,
 };\n
-export default css;\n
+export default css;
 `;
 
 async function read(path) {

@@ -58,7 +58,7 @@ export class StyleInjector {
       const count = this.#state.get(s.id)! - 1;
       this.#state.set(s.id, count);
     } else {
-      console.warn('(at useStyleInjection.ts) unable to remove style:', s.id);
+      console.warn(`(at useStyleInjection.ts) unable to remove style: ${s.id}`);
     }
     if (this.#state.get(s.id) === 0) {
       document.head.querySelector(`#${s.id}`)?.remove();
