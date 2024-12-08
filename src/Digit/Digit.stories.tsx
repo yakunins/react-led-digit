@@ -19,6 +19,13 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+const grid = {
+  display: 'flex',
+  gap: '.35rem',
+  padding: '1rem',
+  placeItems: 'center center',
+};
+
 const CustomDigit = ({ value, ...rest }) => {
   return (
     <Digit
@@ -36,16 +43,9 @@ const CustomDigit = ({ value, ...rest }) => {
 };
 
 const DigitTest = () => {
-  const grid = {
-    margin: '2vmin',
-    display: 'flex',
-    gap: '.35rem',
-    placeItems: 'center center',
-  };
-
   return (
     <>
-      <style>{`.digit {outline: 0.1px solid rgba(255, 0, 0, 0.2);}`}</style>
+      <style>{`.digit { outline: 0.1px solid rgba(255, 0, 0, 0.2); }`}</style>
       <div style={grid}>
         <Digit value={0} className="test" />
         <Digit
@@ -169,13 +169,6 @@ const DigitTest = () => {
   );
 };
 
-const gridStyle = {
-  margin: '2vmin',
-  display: 'flex',
-  gap: '.35rem',
-  placeItems: 'center center',
-};
-
 const charset = new Set(Object.keys(charToSevenSegments));
 function setCharAt(str, index, chr) {
   if (index > str.length - 1) return str;
@@ -235,7 +228,7 @@ const BlinkingDigitTest = () => {
         maxLength={1}
       />
       <button onClick={addDigit}>Add digit</button>
-      <div style={gridStyle}>
+      <div style={grid}>
         <Digit value="8" segmentStyle={{ thickness: '.35rem' }} />
         <Digit value="b" />
         <BlinkingDigit
@@ -318,7 +311,7 @@ const SimpleClock = () => {
     return () => blinker.unsubscribe(handleBlinkerChange);
   }, []);
 
-  return <Display scale={2} style={gridStyle} value={time} />;
+  return <Display scale={2} style={grid} value={time} />;
 };
 
 export const Clock: Story = {
