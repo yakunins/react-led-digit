@@ -10,7 +10,6 @@ Use example:
 
 ```tsx
 import { Digit, BlinkingDigit } from 'react-led-digit';
-import 'react-led-digit/lib/Digit/digit.css';
 
 <div className="digital-clock">
   <Digit value="0" />
