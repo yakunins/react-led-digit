@@ -1,4 +1,4 @@
-declare module '*.css.js' {
+declare module '*.css.generated.js' {
   const css: {
     src: string;
     hash: string;

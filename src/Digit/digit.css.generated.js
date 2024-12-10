@@ -2,7 +2,7 @@
 
 const css = {
   src: `src/Digit/digit.css`,
-  hash: `21rs68w6m0r`,
+  hash: `3775688054381318`,
   content: `
 /**
  *    A
@@ -55,6 +55,10 @@ const css = {
   &.unknown {
     width: var(--thick);
     min-width: var(--thick);
+  }
+
+  .hidden-value {
+    display: none;
   }
 
   .opacity-wrapper {

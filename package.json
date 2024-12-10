@@ -1,6 +1,6 @@
 {
   "name": "react-led-digit",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "react component for 7-segment display (digit), includes dot, colon and am-pm digits",
   "main": "./lib/index.js",
   "files": [

@@ -51,6 +51,10 @@
     min-width: var(--thick);
   }
 
+  .hidden-value {
+    display: none;
+  }
+
   .opacity-wrapper {
     position: absolute;
     width: 100%;

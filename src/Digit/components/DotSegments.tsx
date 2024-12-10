@@ -20,6 +20,7 @@ export const DotSegments = ({
 }: DotSegments) => {
   return (
     <div className={cx('digit dot', shapeCx(shape), className)} {...rest}>
+      <code className="hidden-value">{rest['aria-label']}</code>
       <div className="opacity-wrapper off">
         <i className={cx('segment DP', onOffCx(DP, off))}></i>
       </div>

@@ -74,6 +74,7 @@ type SegmentStyle = {
 export type Digit = DivProps & DigitProps & { segmentStyle?: SegmentStyle };
 
 export const Digit = ({ segmentStyle, value, ...rest }: Digit) => {
+  const v = value.toString();
   const type = valueToType(value);
   const segments = type && valueToSegments(value); // {A: true, ...}
 
@@ -92,15 +93,22 @@ export const Digit = ({ segmentStyle, value, ...rest }: Digit) => {
   } as CSSProperties;
 
   if (type === 'digit')
-    return <DigitSegments {...rest} {...segments} style={sx} />;
+    return <DigitSegments aria-label={v} {...rest} {...segments} style={sx} />;
   if (type === 'colon')
-    return <ColonSegments {...rest} {...segments} style={sx} />;
+    return <ColonSegments aria-label={v} {...rest} {...segments} style={sx} />;
   if (type === 'ampm')
-    return <AmpmSegments {...rest} {...segments} style={sx} />;
-  if (type === 'dot') return <DotSegments {...rest} {...segments} style={sx} />;
+    return <AmpmSegments aria-label={v} {...rest} {...segments} style={sx} />;
+  if (type === 'dot')
+    return <DotSegments aria-label={v} {...rest} {...segments} style={sx} />;
 
   console.warn(`(at Digit.tsx) incompatible value: ${value.toString()}`);
-  return <div {...rest} className={cx('digit unknown', rest.className)}></div>;
+  return (
+    <div
+      aria-label={v}
+      {...rest}
+      className={cx('digit unknown', rest.className)}
+    ></div>
+  );
 };
 
 const charset = new Set(Object.keys(charToSevenSegments));

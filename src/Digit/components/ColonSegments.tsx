@@ -22,6 +22,7 @@ export const ColonSegments = ({
 }: ColonSegments) => {
   return (
     <div className={cx('digit colon', shapeCx(shape), className)} {...rest}>
+      <code className="hidden-value">{rest['aria-label']}</code>
       <div className="opacity-wrapper off">
         <i className={cx('segment D1', onOffCx(D1, off))}></i>
         <i className={cx('segment D2', onOffCx(D2, off))}></i>

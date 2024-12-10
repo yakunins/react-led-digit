@@ -7,8 +7,17 @@ const cfg = {
     paths: ['./src'],
     extensions: ['css'],
   },
-  outputPath: path => `${path}.js`,
+  outputPath: path => `${path}.generated.js`,
 };
+
+const template = (text, sourcePath) => `/* This file is auto-generated */\n
+const css = {
+  src: \`${sourcePath}\`,
+  hash: \`${hash(text)}\`,
+  content: \`\n${text}\`,
+};\n
+export default css;
+`;
 
 const watching = process.argv.includes(cfg.watchParameter);
 const ignorePaths = (path, stats) =>
@@ -54,15 +63,6 @@ const handleFile = (path, action) => {
     return;
   }
 };
-
-const template = (text, sourcePath) => `/* This file is auto-generated */\n
-const css = {
-  src: \`${sourcePath}\`,
-  hash: \`${hash(text)}\`,
-  content: \`\n${text}\`,
-};\n
-export default css;
-`;
 
 async function read(path) {
   try {
@@ -110,7 +110,7 @@ function getExtension(path, stats) {
   return parts[l - 1];
 }
 
-const hash = (str, seed = 0) => cyrb53(str, seed).toString(36);
+const hash = (str, seed = 0) => cyrb53(str, seed);
 
 // https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript
 const cyrb53 = (str, seed = 0) => {
@@ -129,9 +129,8 @@ const cyrb53 = (str, seed = 0) => {
   return 4294967296 * (2097151 & h2) + (h1 >>> 0);
 };
 
-function replaceExtension(path, ext) {
+function trimExtension(path) {
   const parts = path.split('.');
   parts.pop();
-  parts.push(ext);
   return parts.join('.');
 }

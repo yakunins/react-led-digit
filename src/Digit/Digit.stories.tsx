@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Digit, BlinkingDigit, Blinker } from '../';
@@ -218,6 +218,7 @@ const BlinkingDigitTest = () => {
           button, input, p { font-size: 100%; font-family: sans-serif; margin: .25rem;}
         `}
       </style>
+      <p>asynchronous blinking example (blinkOptions.sync = false)</p>
       <p>charset: {Array.from(charset).join(', ')}</p>
       <input
         type="text"
@@ -228,13 +229,13 @@ const BlinkingDigitTest = () => {
       />
       <button onClick={addDigit}>Add digit</button>
       <div style={grid}>
-        <Digit value="8" segmentStyle={{ thickness: '.35rem' }} />
-        <Digit value="b" />
+        <BlinkingDigit value="8" segmentStyle={{ thickness: '.35rem' }} />
+        <BlinkingDigit value="b" />
         <BlinkingDigit
           value=":"
           blinkOptions={{
             period: 2000,
-            ratio: 3,
+            ratio: 1 / 3,
           }}
         />
         {dgts.split('').map((char, idx) => (
