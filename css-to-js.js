@@ -110,7 +110,7 @@ function getExtension(path, stats) {
   return parts[l - 1];
 }
 
-const hash = (str, seed = 0) => cyrb53(str, seed);
+const hash = (str, seed = 0) => cyrb53(str, seed).toString(36);
 
 // https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript
 const cyrb53 = (str, seed = 0) => {
