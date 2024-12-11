@@ -53,9 +53,9 @@ type SegmentStyle = {
    */
   spacing?: CSSProperties['width'];
   /*
-   * Vertical shift of top (A) and bottom (D) segments
+   * Adjust distance between top (A) and bottom (D) segments
    */
-  filament?: CSSProperties['width'];
+  shiftAD?: CSSProperties['width'];
   /*
    * On & off opacity of segments, defaults is 1 and 0.1
    */
@@ -84,7 +84,7 @@ export const Digit = ({ segmentStyle, value, ...rest }: Digit) => {
     '--segment-thickness': segmentStyle?.thickness,
     '--segment-spacing': segmentStyle?.spacing,
     '--segment-length': segmentStyle?.length,
-    '--segment-filament': segmentStyle?.filament,
+    '--segment-shift-ad': segmentStyle?.shiftAD,
     '--segment-opacity-on': segmentStyle?.opacityOn,
     '--segment-opacity-off': segmentStyle?.opacityOff,
     '--segment-transition-duration': segmentStyle?.transitionDuration,

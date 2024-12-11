@@ -2,7 +2,7 @@
 
 const css = {
   src: `src/Digit/digit.css`,
-  hash: `3775688054381318`,
+  hash: `2ftmruudz6u`,
   content: `
 /**
  *    A
@@ -18,7 +18,7 @@ const css = {
   --thickness: var(--segment-thickness, 0.25em); /* =4px */
   --length: var(--segment-length, 1em);
   --spacing: var(--segment-spacing, 0.0625em); /* =1px */
-  --filament: var(--segment-filament, 0em); /* vertical squeeze for A, D */
+  --shift-ad: var(--segment-shift-ad, 0em); /* squeezes segments A and D */
   --opacity-on: var(--segment-opacity-on, 1);
   --opacity-off: var(--segment-opacity-off, 0.1);
   --transition-duration: var(--segment-transition-duration, 0.25s);
@@ -30,6 +30,7 @@ const css = {
 
   /* computed values */
   --thick: var(--thickness);
+  --thick-half: calc(var(--thick) * 0.5);
   --digit-width: calc(var(--length) + var(--thick) + var(--spacing));
   --digit-height: calc(var(--length) * 2 + var(--thick) + var(--spacing) * 2);
 
@@ -41,7 +42,7 @@ const css = {
   --sp-half-minus: calc(var(--sp-half) * -1);
 
   --radius-round: calc(var(--thick) * 0.33);
-  --radius-pill: 100em;
+  --radius-pill: var(--thick-half, 10em);
 
   display: inline-block;
   position: relative;
@@ -67,9 +68,10 @@ const css = {
     height: 100%;
   }
 
+  &.digit,
   .opacity-wrapper,
   .opacity-wrapper .segment {
-    transition-property: background-color, border-color, opacity, visibility;
+    transition-property: all;
     transition-duration: var(--transition-duration);
   }
 
@@ -145,10 +147,10 @@ const css = {
         left: calc(var(--th-half) + var(--sp-half) - var(--shft));
       }
       &.A {
-        top: calc(var(--filament) + var(--shft));
+        top: calc(var(--shift-ad) + var(--shft));
       }
       &.D {
-        bottom: calc(var(--filament) + var(--shft));
+        bottom: calc(var(--shift-ad) + var(--shft));
       }
       &.G {
         bottom: calc(var(--length) + var(--spacing));
@@ -158,9 +160,9 @@ const css = {
     /* spearheads */
     &.horizontal {
       clip-path: polygon(
-        0 50%,
-        var(--th-half) 0,
-        var(--th-half-100) 0,
+        0% 50%,
+        var(--th-half) 0%,
+        var(--th-half-100) 0%,
         100% 50%,
         var(--th-half-100) 100%,
         var(--th-half) 100%
@@ -168,9 +170,9 @@ const css = {
       &.A {
         /* x y */
         clip-path: polygon(
-          0 calc(50% - var(--shft)),
-          calc(var(--th-half) - var(--shft)) 0,
-          calc(var(--th-half-100) + var(--shft)) 0,
+          0% calc(50% - var(--shft)),
+          calc(var(--th-half) - var(--shft)) 0%,
+          calc(var(--th-half-100) + var(--shft)) 0%,
           100% calc(50% - var(--shft)),
           calc(var(--th-half-100) - var(--shft)) 100%,
           calc(var(--th-half) + var(--shft)) 100%
@@ -179,9 +181,9 @@ const css = {
       &.D {
         /* x y */
         clip-path: polygon(
-          0 calc(50% + var(--shft)),
-          calc(var(--th-half) + var(--shft)) 0,
-          calc(var(--th-half-100) - var(--shft)) 0,
+          0% calc(50% + var(--shft)),
+          calc(var(--th-half) + var(--shft)) 0%,
+          calc(var(--th-half-100) - var(--shft)) 0%,
           100% calc(50% + var(--shft)),
           calc(var(--th-half-100) + var(--shft)) 100%,
           calc(var(--th-half) - var(--shft)) 100%
@@ -190,9 +192,9 @@ const css = {
     }
     &.vertical {
       clip-path: polygon(
-        50% 0,
-        0 var(--th-half),
-        0 var(--th-half-100),
+        50% 0%,
+        0% var(--th-half),
+        0% var(--th-half-100),
         50% 100%,
         100% var(--th-half-100),
         100% var(--th-half)
@@ -200,9 +202,9 @@ const css = {
       &.B {
         /* x y */
         clip-path: polygon(
-          calc(50% + var(--shft)) 0,
-          0 calc(var(--th-half) + var(--shft)),
-          0 var(--th-half-100),
+          calc(50% + var(--shft)) 0%,
+          0% calc(var(--th-half) + var(--shft)),
+          0% var(--th-half-100),
           50% 100%,
           100% var(--th-half-100),
           100% calc(var(--th-half) - var(--shft))
@@ -211,9 +213,9 @@ const css = {
       &.C {
         /* x y */
         clip-path: polygon(
-          50% 0,
-          0 var(--th-half),
-          0 calc(var(--th-half-100) - var(--shft)),
+          50% 0%,
+          0% var(--th-half),
+          0% calc(var(--th-half-100) - var(--shft)),
           calc(50% + var(--shft)) 100%,
           100% calc(var(--th-half-100) + var(--shft)),
           100% var(--th-half)
@@ -222,9 +224,9 @@ const css = {
       &.E {
         /* x y */
         clip-path: polygon(
-          50% 0,
-          0 var(--th-half),
-          0 calc(var(--th-half-100) + var(--shft)),
+          50% 0%,
+          0% var(--th-half),
+          0% calc(var(--th-half-100) + var(--shft)),
           calc(50% - var(--shft)) 100%,
           100% calc(var(--th-half-100) - var(--shft)),
           100% var(--th-half)
@@ -233,9 +235,9 @@ const css = {
       &.F {
         /* x y */
         clip-path: polygon(
-          calc(50% - var(--shft)) 0,
-          0 calc(var(--th-half) - var(--shft)),
-          0 var(--th-half-100),
+          calc(50% - var(--shft)) 0%,
+          0% calc(var(--th-half) - var(--shft)),
+          0% var(--th-half-100),
           50% 100%,
           100% var(--th-half-100),
           100% calc(var(--th-half) + var(--shft))
@@ -245,16 +247,26 @@ const css = {
   }
 
   /* segment shapes */
+  &.shape-default .segment.segment,
   &.shape-rect .segment.segment {
-    clip-path: unset;
+    border-radius: 0;
   }
   &.shape-round .segment.segment {
     border-radius: var(--radius-round);
-    clip-path: unset;
   }
   &.shape-pill .segment.segment {
     border-radius: var(--radius-pill);
-    clip-path: unset;
+  }
+
+  &.shape-rect,
+  &.shape-round,
+  &.shape-pill {
+    .segment.segment.horizontal {
+      clip-path: polygon(0% 50%, 0% 0%, 100% 0%, 100% 50%, 100% 100%, 0% 100%);
+    }
+    .segment.segment.vertical {
+      clip-path: polygon(50% 0%, 0% 0%, 0% 100%, 50% 100%, 100% 100%, 100% 0%);
+    }
   }
 
   &.ampm {

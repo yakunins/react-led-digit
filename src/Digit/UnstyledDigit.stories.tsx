@@ -34,7 +34,7 @@ const CustomDigit = ({ ...rest }: UnstyledDigit) => {
         thickness: '.25rem',
         length: '1.5rem',
         spacing: '0.25rem',
-        filament: '.0625rem',
+        shiftAD: '.0625rem',
       }}
     />
   );
