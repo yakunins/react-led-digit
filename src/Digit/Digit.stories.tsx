@@ -283,7 +283,7 @@ const Display = ({ scale = 1, value, ...rest }: DisplayProps) => {
           },
           segmentStyle: {
             color: 'green',
-            cornerShift: 'calc(var(--thickness) / 8)',
+            cornerShift: 'calc(var(--thickness) / 4)',
           },
         };
         if (digit === ':') {
@@ -314,6 +314,30 @@ const SimpleClock = () => {
   return <Display scale={2} style={grid} value={time} />;
 };
 
+const FirefoxSubpixelTest = () => {
+  const DigitFF = (props: any) => (
+    <Digit
+      value={props.v || 8}
+      segmentStyle={{
+        color: 'green',
+        thickness: '1em',
+        length: '5em',
+        spacing: '0.1em',
+      }}
+    />
+  );
+
+  return (
+    <div style={{ ...grid }}>
+      <DigitFF v={2} />
+      <DigitFF />
+      <DigitFF v=":" />
+      <DigitFF />
+      <DigitFF />
+    </div>
+  );
+};
+
 export const Clock: Story = {
   args: {
     value: '0',
@@ -333,4 +357,11 @@ export const Blinking: Story = {
     value: '0',
   },
   render: BlinkingDigitTest,
+};
+
+export const Firefox: Story = {
+  args: {
+    value: '0',
+  },
+  render: FirefoxSubpixelTest,
 };

@@ -22,7 +22,7 @@ export const AmpmSegments = ({
 }: AmpmSegments) => {
   return (
     <div className={cx('digit ampm', shapeCx(shape), className)} {...rest}>
-      <code className="hidden-value">{rest['aria-label']}</code>
+      <code className="aria-label">{rest['aria-label']}</code>
       <div className="opacity-wrapper off">
         <i className={cx('segment AM', onOffCx(AM, off))}></i>
         <i className={cx('segment PM', onOffCx(PM, off))}></i>

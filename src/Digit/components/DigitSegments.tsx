@@ -32,7 +32,7 @@ export const DigitSegments = ({
 }: DigitSegments) => {
   return (
     <div className={cx('digit', shapeCx(shape), className)} {...rest}>
-      <code className="hidden-value">{rest['aria-label']}</code>
+      <code className="aria-label">{rest['aria-label']}</code>
       <div className="opacity-wrapper off">
         <i className={cx('segment A horizontal', onOffCx(A, off))}></i>
         <i className={cx('segment B vertical', onOffCx(B, off))}></i>

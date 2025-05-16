@@ -42,7 +42,7 @@ const useStyleInjector = (
   };
 };
 
-// Inject style into head if it
+// Inject style into head
 export class StyleInjector {
   private static instance: StyleInjector;
   #styles: Map<string, number> = new Map();

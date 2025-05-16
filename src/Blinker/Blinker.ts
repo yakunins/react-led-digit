@@ -43,7 +43,7 @@ export class Blinker {
     visible: defaultOptions.visible!,
   };
 
-  constructor(options = defaultOptions) {
+  constructor(options?: BlinkerOptions) {
     const init = () => {
       this.#options = { ...this.#options, ...options }; // merge options
       this.#state.period = this.#options.period!;
@@ -51,7 +51,7 @@ export class Blinker {
       this.#state.visible = this.#options.visible!;
       if (this.#options.autoRun) this.start();
     };
-    if (options.singleton === false) {
+    if (options?.singleton === false) {
       init();
       return this;
     }
