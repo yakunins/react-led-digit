@@ -2,7 +2,7 @@
 
 # React Led Digit → [![npm version](https://img.shields.io/npm/v/react-led-digit.svg)](https://www.npmjs.com/package/react-led-digit)
 
-A react component to emulate seven-segment display.
+A react component to emulate seven-segment display.  
 → [Codesandbox playground](https://codesandbox.io/p/sandbox/friendly-dewdney-7jvh5w)
 
 Use example:
@@ -20,7 +20,7 @@ import { Digit, BlinkingDigit } from 'react-led-digit';
 </div>;
 ```
 
-Segment style example ([sandbox](https://codesandbox.io/p/sandbox/react-led-digit-forked-c4f2v3)):
+Styled segments example (see [sandbox](https://codesandbox.io/p/sandbox/react-led-digit-forked-c4f2v3)):
 
 ```tsx
 import { Digit, BlinkingDigit } from 'react-led-digit';
