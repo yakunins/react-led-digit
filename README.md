@@ -1,7 +1,8 @@
 <img src="images/react-led-digit.gif" width="576" alt="react led digit" />
 
-# Led Digit (Seven-Segment) React Component → [![npm version](https://img.shields.io/npm/v/react-led-digit.svg)](https://www.npmjs.com/package/react-led-digit)
+# React Led Digit → [![npm version](https://img.shields.io/npm/v/react-led-digit.svg)](https://www.npmjs.com/package/react-led-digit)
 
+A react component to emulate seven-segment display.
 → [Codesandbox playground](https://codesandbox.io/p/sandbox/friendly-dewdney-7jvh5w)
 
 Use example:
