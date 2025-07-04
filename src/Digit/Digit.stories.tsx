@@ -112,6 +112,11 @@ const DigitTest = () => {
         <Digit value="o" />
         <Digit value="r" />
         <Digit value="u" />
+        <Digit value=" " />
+        <Digit value="_" />
+        <Digit value="-" />
+        <Digit value=":" />
+        <Digit value="." />
       </div>
       <div style={grid}>
         <CustomDigit value={0} />

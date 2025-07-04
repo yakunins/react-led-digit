@@ -2,7 +2,7 @@
 
 const css = {
   src: `src/Digit/digit.css`,
-  hash: `y5tdgosc5m`,
+  hash: `8v5snasxzy`,
   content: `
 /**
  *    A
@@ -332,7 +332,7 @@ const css = {
     & .segment {
       --dot-border-width: calc(var(--thk) * 0.6);
       --dot-size: calc(var(--dot-border-width) * 2);
-      --dots-distance: calc(var(--thk) / 2);
+      --dots-distance: calc(var(--digit-height) / 8);
 
       position: absolute;
       width: var(--dot-size);
