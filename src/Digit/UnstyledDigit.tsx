@@ -14,16 +14,16 @@ type DigitValue = NumValue | SevenSegmentsValue | 'am' | 'pm' | ':' | '.';
 type DivProps = React.HTMLAttributes<HTMLDivElement>;
 export type DigitProps = {
   /*
-   * If true, all segments turn off having 'opacityOff' and
+   * If true, all segments turn off having 'opacityOff' style applied
    */
   off?: boolean;
   /*
-   * Shape of the segment. Default is "default", meaning...
+   * Shape of the segment.
    * For 7-segment digit default shape is diamond.
    * For colon and dot default shape is circle.
    * For ampm default shape is letters with no background, otherwise filled.
    */
-  shape?: 'default' | 'rect' | 'round' | 'pill';
+  shape?: 'default' | 'rect' | 'round' | 'pill' | 'calculator';
   /*
    * If number or character (like "L"), renders itself as 7-segment digit.
    * If ":", "." or "am"/"pm", renders itself as colon digit or dot

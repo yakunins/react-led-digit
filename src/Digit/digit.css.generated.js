@@ -2,7 +2,7 @@
 
 const css = {
   src: `src/Digit/digit.css`,
-  hash: `8v5snasxzy`,
+  hash: `1sqeba82tiv`,
   content: `
 /**
  *    A
@@ -127,9 +127,10 @@ const css = {
     /* vertical segments pos */
     &.vertical {
       --x100--thk-half: var(--thk-half);
-      --y100--thk-half: calc(var(--len) - var(--thk-half));
+      --y100--thk-half: calc(var(--len) - var(--thk-half) + var(--crn));
+
       width: var(--thk);
-      height: var(--len);
+      height: calc(var(--len) + var(--crn));
       left: 0;
 
       &.B,
@@ -139,7 +140,7 @@ const css = {
     }
     &.F,
     &.B {
-      top: calc(var(--thk-half) + var(--spc));
+      top: calc(var(--thk-half) + var(--spc) - var(--crn));
     }
     &.E,
     &.C {
@@ -161,10 +162,10 @@ const css = {
         left: calc(var(--thk-half) + var(--spc) - var(--crn));
       }
       &.A {
-        top: calc(var(--ad) + var(--crn));
+        top: calc(var(--ad) + 0px);
       }
       &.D {
-        top: calc(var(--len) * 2 + var(--spc) * 4 - var(--ad) - var(--crn));
+        top: calc(var(--len) * 2 + var(--spc) * 4 - var(--ad) - 0px);
       }
       &.G {
         top: calc(var(--len) + var(--spc) * 2);
@@ -272,6 +273,9 @@ const css = {
   }
   &.shape-pill .segment.segment {
     border-radius: var(--radius-pill);
+  }
+  &.shape-calculator {
+    border-radius: var(--thk);
   }
 
   &.shape-rect,

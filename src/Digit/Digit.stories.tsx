@@ -343,6 +343,31 @@ const FirefoxSubpixelTest = () => {
   );
 };
 
+const SegmentShapeTest = () => {
+  const Dgt = ({ shape }: { shape?: Digit['shape'] }) => (
+    <Digit
+      value={'F'}
+      shape={shape}
+      segmentStyle={{
+        color: 'green',
+        thickness: '2em',
+        length: '5em',
+        spacing: '0.1em',
+      }}
+    />
+  );
+
+  return (
+    <div style={{ ...grid }}>
+      <Dgt shape={'default'} />
+      <Dgt shape={'rect'} />
+      <Dgt shape={'round'} />
+      <Dgt shape={'pill'} />
+      <Dgt shape={'calculator'} />
+    </div>
+  );
+};
+
 export const Clock: Story = {
   args: {
     value: '0',
@@ -369,4 +394,11 @@ export const Firefox: Story = {
     value: '0',
   },
   render: FirefoxSubpixelTest,
+};
+
+export const Shape: Story = {
+  args: {
+    value: '0',
+  },
+  render: SegmentShapeTest,
 };
