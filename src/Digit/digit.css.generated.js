@@ -2,7 +2,7 @@
 
 const css = {
   src: `src/Digit/digit.css`,
-  hash: `1sqeba82tiv`,
+  hash: `4bpttscfgs`,
   content: `
 /**
  *    A
@@ -53,11 +53,15 @@ const css = {
 
   --digit-width: calc(var(--len) + var(--thk) + var(--spc) * 2);
   --digit-height: calc(var(--len) * 2 + var(--thk) + var(--spc) * 4);
+  --dw: var(--digit-width);
+  --dh: var(--digit-height);
+  --dw-half: calc(var(--digit-width) / 2);
+  --dh-half: calc(var(--digit-height) / 2);
 
-  width: var(--digit-width);
-  height: var(--digit-height);
-  min-width: var(--digit-width); /* to prevent flex-shrink effects */
-  min-height: var(--digit-height);
+  width: var(--dw);
+  height: var(--dh);
+  min-width: var(--dw); /* to prevent flex-shrink effects */
+  min-height: var(--dh);
 
   &.ampm {
     --digit-width: calc(var(--len) + var(--thk) + var(--spc));
@@ -126,11 +130,13 @@ const css = {
 
     /* vertical segments pos */
     &.vertical {
+      --w: var(--thk);
+      --h: calc(var(--len) + var(--crn));
       --x100--thk-half: var(--thk-half);
       --y100--thk-half: calc(var(--len) - var(--thk-half) + var(--crn));
 
-      width: var(--thk);
-      height: calc(var(--len) + var(--crn));
+      width: var(--w);
+      height: var(--h);
       left: 0;
 
       &.B,
@@ -149,17 +155,19 @@ const css = {
 
     /* horizontal segments pos */
     &.horizontal {
+      --w: var(--len);
+      --h: var(--thk);
       --x100--thk-half: calc(var(--len) - var(--thk-half));
       --y100--thk-half: var(--thk-half);
 
-      width: var(--len);
-      height: var(--thk);
+      width: var(--w);
+      height: var(--h);
       left: calc(var(--thk-half) + var(--spc));
 
       &.A,
       &.D {
-        width: calc(var(--len) + var(--crn) * 2);
         left: calc(var(--thk-half) + var(--spc) - var(--crn));
+        width: calc(var(--w) + var(--crn) * 2);
       }
       &.A {
         top: calc(var(--ad) + 0px);
@@ -177,87 +185,80 @@ const css = {
       &.A {
         /* x y */
         clip-path: polygon(
-          0% calc(50% - var(--crn)),
+          0% calc(var(--thk-half) - var(--crn)),
           calc(var(--thk-half) - var(--crn)) 0%,
           calc(var(--x100--thk-half) + var(--crn) * 3) 0%,
-          100% calc(50% - var(--crn)),
-          calc(var(--x100--thk-half) + var(--crn)) 100%,
-          calc(var(--thk-half) + var(--crn)) 100%
+          calc(var(--len) + var(--crn) * 2) calc(var(--thk-half) - var(--crn)),
+          calc(var(--x100--thk-half) + var(--crn)) var(--thk),
+          calc(var(--thk-half) + var(--crn)) var(--thk)
         );
       }
       &.G {
         clip-path: polygon(
-          0% 50%,
+          0% calc(var(--thk) / 2),
           var(--thk-half) 0%,
           var(--x100--thk-half) 0%,
-          100% 50%,
-          var(--x100--thk-half) 100%,
-          var(--thk-half) 100%
+          var(--len) var(--thk-half),
+          var(--x100--thk-half) var(--thk),
+          var(--thk-half) var(--thk)
         );
       }
       &.D {
         /* x y */
         clip-path: polygon(
-          0% calc(50% + var(--crn)),
+          0% calc(var(--thk-half) + var(--crn)),
           calc(var(--thk-half) + var(--crn)) 0%,
           calc(var(--x100--thk-half) + var(--crn)) 0%,
-          100% calc(50% + var(--crn)),
-          calc(var(--x100--thk-half) + var(--crn) * 3) 100%,
-          calc(var(--thk-half) - var(--crn)) 100%
+          calc(var(--len) + var(--crn) * 2) calc(var(--thk-half) + var(--crn)),
+          calc(var(--x100--thk-half) + var(--crn) * 3) var(--thk),
+          calc(var(--thk-half) - var(--crn)) var(--thk)
         );
       }
     }
+
     &.vertical {
-      clip-path: polygon(
-        50% 0%,
-        0% var(--thk-half),
-        0% var(--y100--thk-half),
-        50% 100%,
-        100% var(--y100--thk-half),
-        100% var(--thk-half)
-      );
       &.B {
         /* x y */
         clip-path: polygon(
-          calc(50% + var(--crn)) 0%,
+          calc(var(--thk-half) + var(--crn)) 0%,
           0% calc(var(--thk-half) + var(--crn)),
           0% var(--y100--thk-half),
-          50% 100%,
-          100% var(--y100--thk-half),
-          100% calc(var(--thk-half) - var(--crn))
+          var(--thk-half) calc(var(--len) + var(--crn)),
+          var(--thk) var(--y100--thk-half),
+          var(--thk) calc(var(--thk-half) - var(--crn))
         );
       }
       &.C {
         /* x y */
         clip-path: polygon(
-          50% 0%,
+          var(--thk-half) 0%,
           0% var(--thk-half),
           0% calc(var(--y100--thk-half) - var(--crn)),
-          calc(50% + var(--crn)) 100%,
-          100% calc(var(--y100--thk-half) + var(--crn)),
-          100% var(--thk-half)
+          calc(var(--thk-half) + var(--crn)) calc(var(--len) + var(--crn)),
+          var(--thk) calc(var(--y100--thk-half) + var(--crn)),
+          var(--thk) var(--thk-half)
         );
       }
       &.E {
         /* x y */
         clip-path: polygon(
-          50% 0%,
+          var(--thk-half) 0%,
           0% var(--thk-half),
           0% calc(var(--y100--thk-half) + var(--crn)),
-          calc(50% - var(--crn)) 100%,
-          100% calc(var(--y100--thk-half) - var(--crn)),
-          100% var(--thk-half)
+          calc(var(--thk-half) - var(--crn)) calc(var(--len) + var(--crn)),
+          var(--thk) calc(var(--y100--thk-half) - var(--crn)),
+          var(--thk) var(--thk-half)
         );
       }
       &.F {
         /* x y */
         clip-path: polygon(
-          calc(50% - var(--crn)) 0%,
+          calc(var(--thk-half) - var(--crn)) 0%,
           0% calc(var(--thk-half) - var(--crn)),
           0% var(--y100--thk-half),
-          50% 100%,
-          100% var(--y100--thk-half),
-          100% calc(var(--thk-half) + var(--crn))
+          var(--thk-half) calc(var(--len) + var(--crn)),
+          var(--thk) var(--y100--thk-half),
+          var(--thk) calc(var(--thk-half) + var(--crn))
         );
       }
     }
@@ -275,7 +276,13 @@ const css = {
     border-radius: var(--radius-pill);
   }
   &.shape-calculator {
-    border-radius: var(--thk);
+    border-radius: calc(var(--thk) * 1.2);
+    overflow: hidden;
+
+    .segment.segment {
+      --crn: var(--thk);
+      --shft: calc(var(--thk) * 1);
+    }
   }
 
   &.shape-rect,

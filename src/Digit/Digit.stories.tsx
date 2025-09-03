@@ -353,6 +353,7 @@ const SegmentShapeTest = () => {
         thickness: '2em',
         length: '5em',
         spacing: '0.1em',
+        cornerShift: '0.5em',
       }}
     />
   );
