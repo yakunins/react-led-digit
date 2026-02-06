@@ -176,7 +176,7 @@ const DigitTest = () => {
 const charset = new Set(Object.keys(charToSevenSegments));
 function setCharAt(str: string, index: number, chr: string) {
   if (index > str.length - 1) return str;
-  return str.substr(0, index) + chr + str.substr(index + 1);
+  return str.substring(0, index) + chr + str.substring(index + 1);
 }
 
 const BlinkingDigitTest = () => {
@@ -184,7 +184,7 @@ const BlinkingDigitTest = () => {
   const [dgts, setDgts] = useState('');
 
   const addDigit = () => {
-    if (input.current!.value) {
+    if (input.current?.value) {
       setDgts(prev => prev + input.current!.value);
     }
   };
@@ -195,8 +195,8 @@ const BlinkingDigitTest = () => {
   };
 
   const handleChange = () => {
-    if (!charset.has(input.current!.value)) {
-      input.current!.value = '';
+    if (input.current && !charset.has(input.current.value)) {
+      input.current.value = '';
     }
   };
 
@@ -306,12 +306,11 @@ const getTime = () => new Date().toLocaleTimeString();
 const SimpleClock = () => {
   const [time, setTime] = useState(getTime());
 
-  const blinker = new Blinker();
-  blinker.period = 2000;
-  blinker.ratio = 1;
-  const handleBlinkerChange = () => setTime(getTime());
-
   useEffect(() => {
+    const blinker = new Blinker();
+    blinker.period = 2000;
+    blinker.ratio = 1;
+    const handleBlinkerChange = () => setTime(getTime());
     blinker.subscribe(handleBlinkerChange);
     return () => blinker.unsubscribe(handleBlinkerChange);
   }, []);

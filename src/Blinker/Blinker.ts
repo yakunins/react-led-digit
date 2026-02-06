@@ -1,5 +1,5 @@
 /**
- * Switches intrnal state periodically (visible), calling subscribers each time.
+ * Switches internal state periodically (visible), calling subscribers each time.
  */
 
 type BlinkerSubscriber = (state: BlinkerState['visible']) => void;
@@ -106,7 +106,7 @@ export class Blinker {
   }
 
   start(visible = this.#state.visible) {
-    if (this.#state.timeout) return; // already runnning
+    if (this.#state.timeout) this.stop(); // restart with new params
     visible ? this.#on() : this.#off(); // start blinking
   }
   stop() {

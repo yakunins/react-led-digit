@@ -101,7 +101,7 @@ export const Digit = ({ segmentStyle, value, ...rest }: Digit) => {
   if (type === 'dot')
     return <DotSegments aria-label={v} {...rest} {...segments} style={sx} />;
 
-  console.warn(`(at Digit.tsx) incompatible value: ${value.toString()}`);
+  console.warn(`(at UnstyledDigit.tsx) incompatible value: ${value.toString()}`);
   return (
     <div
       aria-label={v}
@@ -123,7 +123,7 @@ function valueToType(v: DigitProps['value']) {
 }
 
 function valueToSegments(v: Digit['value']) {
-  const str = v?.toString();
+  const str = v?.toString() ?? '';
 
   if (str.toLowerCase() === 'am') return { AM: true };
   if (str.toLowerCase() === 'pm') return { PM: true };

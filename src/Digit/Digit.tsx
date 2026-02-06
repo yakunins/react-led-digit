@@ -8,7 +8,7 @@ export const Digit = ({ ...rest }: Digit) => {
     scopeID: css.hash,
   });
 
-  if (Object.entries(scopeAttribute)[0].includes(true))
+  if (Object.values(scopeAttribute).some(v => v === true))
     return (
       <div {...scopeAttribute} style={{ display: 'contents' }}>
         <UnstyledDigit {...rest} />

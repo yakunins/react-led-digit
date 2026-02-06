@@ -64,9 +64,9 @@ const handleFile = (path, action) => {
   }
 };
 
-async function read(path) {
+function read(path) {
   try {
-    const content = await fs.readFileSync(path, 'utf-8');
+    const content = fs.readFileSync(path, 'utf-8');
     return content;
   } catch (err) {
     console.error('Error reading file:', err);
@@ -74,11 +74,11 @@ async function read(path) {
   }
 }
 
-async function write(path, content) {
-  return await fs.writeFileSync(path, content);
+function write(path, content) {
+  return fs.writeFileSync(path, content);
 }
 
-async function remove(path) {
+function remove(path) {
   fs.access(path, fs.constants.F_OK, err => {
     if (err) {
       console.error('Error:', err);
@@ -95,10 +95,11 @@ async function remove(path) {
   });
 }
 
-async function convert(path) {
-  const inputText = await read(path);
+function convert(path) {
+  const inputText = read(path);
+  if (inputText === null) return;
   const outputData = template(inputText, path);
-  const writeResult = await write(cfg.outputPath(path), outputData);
+  const writeResult = write(cfg.outputPath(path), outputData);
   return writeResult;
 }
 
@@ -129,8 +130,4 @@ const cyrb53 = (str, seed = 0) => {
   return 4294967296 * (2097151 & h2) + (h1 >>> 0);
 };
 
-function trimExtension(path) {
-  const parts = path.split('.');
-  parts.pop();
-  return parts.join('.');
-}
+

@@ -55,12 +55,14 @@ export class StyleInjector {
   }
 
   increase(s: Style) {
-    if (this.count(s) === 0) document.head.appendChild(createStyleElement(s));
+    if (this.count(s) === 0 && typeof document !== 'undefined')
+      document.head.appendChild(createStyleElement(s));
     if (this.count(s) >= 0) this.#styles.set(s.id, this.count(s) + 1);
   }
   reduce(s: Style) {
     if (this.count(s) > 0) this.#styles.set(s.id, this.count(s) - 1);
-    if (this.count(s) === 0) document.head.querySelector(`#${s.id}`)?.remove();
+    if (this.count(s) === 0 && typeof document !== 'undefined')
+      document.head.querySelector(`#${s.id}`)?.remove();
   }
   count(s: Style) {
     if (this.#styles.has(s.id)) return this.#styles.get(s.id) as number;
@@ -77,19 +79,12 @@ const createStyleElement = (style: Style) => {
 };
 
 const wrapWithScope = (css: string, scopeAttribute: string) => {
-  const scoped = // unused bc @scope at-rule does not work in Firefox
-    `@scope ([${scopeAttribute}]) {` +
-    `:scope { display: contents; }` +
-    `${css}` +
-    `}`;
-
-  const isolated =
+  return (
     `[${scopeAttribute}] { display: contents; }` +
     `[${scopeAttribute}] {` +
     `${css}` +
-    `}`;
-
-  return isolated;
+    `}`
+  );
 };
 
 // https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript
