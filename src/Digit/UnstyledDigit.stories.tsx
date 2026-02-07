@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { UnstyledDigit } from '..';
-//import './digit.css';
 
 const meta = {
   title: 'Example/UnstyledDigit',

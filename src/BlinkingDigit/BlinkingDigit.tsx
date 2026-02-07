@@ -32,7 +32,7 @@ export const BlinkingDigit = React.memo(
     if (
       blinkOptions?.period === 0 ||
       blinkOptions?.ratio === 0 ||
-      typeof rest?.off === 'boolean'
+      typeof rest.off === 'boolean'
     )
       return <Digit {...rest} className={cx('blinking', className)} />; // no blinker required
 

@@ -174,9 +174,9 @@ const DigitTest = () => {
 };
 
 const charset = new Set(Object.keys(charToSevenSegments));
-function setCharAt(str: string, index: number, chr: string) {
-  if (index > str.length - 1) return str;
-  return str.substring(0, index) + chr + str.substring(index + 1);
+function removeCharAt(str: string, index: number) {
+  if (index < 0 || index >= str.length) return str;
+  return str.substring(0, index) + str.substring(index + 1);
 }
 
 const BlinkingDigitTest = () => {
@@ -190,7 +190,7 @@ const BlinkingDigitTest = () => {
   };
 
   const removeDigit = (idx: number) => {
-    const next = setCharAt(dgts, idx, '');
+    const next = removeCharAt(dgts, idx);
     setDgts(next);
   };
 
@@ -319,7 +319,7 @@ const SimpleClock = () => {
 };
 
 const FirefoxSubpixelTest = () => {
-  const DigitFF = (props: any) => (
+  const DigitFF = (props: { v?: Digit['value'] }) => (
     <Digit
       value={props.v || 8}
       segmentStyle={{

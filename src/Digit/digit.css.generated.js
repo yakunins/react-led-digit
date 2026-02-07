@@ -2,7 +2,7 @@
 
 const css = {
   src: `src/Digit/digit.css`,
-  hash: `4bpttscfgs`,
+  hash: `pbiyziddc`,
   content: `
 /**
  *    A
@@ -37,12 +37,9 @@ const css = {
   /* computed values */
   --len: var(--length);
   --thk: var(--thickness);
-  --thk-minus: calc(var(--thk) * -1);
   --thk-half: calc(var(--thk) / 2);
-  --thk-half-minus: calc(var(--thk) / -2);
 
   --spc: calc(var(--spacing) / 1.4142); /* divided by sqrt(2) */
-  --spc-minus: calc(var(--spc) * -1);
   --crn: var(--corner-shift);
 
   --radius-round: calc(var(--thk) * 0.33);

@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import { CSSProperties } from 'react';
 import { default as cx } from 'clsx';
 
 import { charToSevenSegments, SevenSegmentsValue } from './charToSevenSegments';

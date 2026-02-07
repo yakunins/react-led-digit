@@ -79,20 +79,14 @@ function write(path, content) {
 }
 
 function remove(path) {
-  fs.access(path, fs.constants.F_OK, err => {
-    if (err) {
-      console.error('Error:', err);
-      return; // path doesn't exist
+  try {
+    if (fs.existsSync(path)) {
+      fs.unlinkSync(path);
+      console.log('File deleted successfully:', path);
     }
-
-    fs.unlink(path, err => {
-      if (err) {
-        console.error('Error deleting file:', err);
-      } else {
-        console.log('File deleted successfully:', path);
-      }
-    });
-  });
+  } catch (err) {
+    console.error('Error deleting file:', err);
+  }
 }
 
 function convert(path) {
