@@ -2,7 +2,7 @@
 
 const css = {
   src: `src/Digit/digit.css`,
-  hash: `21g5rruyxlx`,
+  hash: `1l4zd72t3qa`,
   content: `
 /**
  *    A
@@ -20,8 +20,8 @@ const css = {
   --ad: calc(
     var(--segment-shift-ad, 0em) * var(--scale)
   ); /* moves segments A, D in vertical direction */
-  --corner-shift: var(
-    --segment-corner-shift,
+  --corner-cutoff: var(
+    --segment-corner-cutoff,
     0em
   ); /* distortion of outer corners of a digit */
 
@@ -40,7 +40,7 @@ const css = {
   --thk-half: calc(var(--thk) / 2);
 
   --spc: calc(var(--spacing) / 1.4142); /* divided by sqrt(2) */
-  --crn: var(--corner-shift);
+  --crn: var(--corner-cutoff);
 
   --radius-round: calc(var(--thk) * 0.33);
   --radius-pill: var(--thk, 10em);
@@ -261,18 +261,8 @@ const css = {
     }
   }
 
-  /* segment shapes */
-  &.shape-default .segment.segment,
-  &.shape-rect .segment.segment {
-    border-radius: 0;
-  }
-  &.shape-round .segment.segment {
-    border-radius: var(--radius-round);
-  }
-  &.shape-pill .segment.segment {
-    border-radius: var(--radius-pill);
-  }
-  & {
+  /* digit shape */
+  &.digit {
     clip-path: polygon(
       0px 0px,
       0px 0px,
@@ -300,8 +290,40 @@ const css = {
       0px 100%
     );
   }
+
+  &.shape-default {
+    --crn-2: calc(var(--crn) * -1 + var(--spc) + var(--thk));
+
+    clip-path: polygon(
+      0px var(--crn-2),
+      0px var(--crn-2),
+      0px var(--crn-2),
+      var(--crn-2) 0px,
+      var(--crn-2) 0px,
+      var(--crn-2) 0px,
+      calc(100% - var(--crn-2)) 0px,
+      calc(100% - var(--crn-2)) 0px,
+      calc(100% - var(--crn-2)) 0px,
+      100% var(--crn-2),
+      100% var(--crn-2),
+      100% var(--crn-2),
+      100% calc(100% - var(--crn-2)),
+      100% calc(100% - var(--crn-2)),
+      100% calc(100% - var(--crn-2)),
+      calc(100% - var(--crn-2)) 100%,
+      calc(100% - var(--crn-2)) 100%,
+      calc(100% - var(--crn-2)) 100%,
+      var(--crn-2) 100%,
+      var(--crn-2) 100%,
+      var(--crn-2) 100%,
+      0px calc(100% - var(--crn-2)),
+      0px calc(100% - var(--crn-2)),
+      0px calc(100% - var(--crn-2))
+    );
+  }
+
   &.shape-calculator {
-    --r: calc(var(--thk) * 1.2);
+    --r: calc(var(--thk) * 1.35);
 
     /* rounded corners */
     clip-path: polygon(
@@ -330,11 +352,22 @@ const css = {
       calc(var(--r) * 0.0495) calc(var(--dh) - var(--r) * 0.691),
       0px calc(var(--dh) - var(--r))
     );
+  }
 
-    .segment.segment {
-      --crn: var(--thk);
-      --shft: calc(var(--thk) * 1);
-    }
+  /* segment shapes */
+  &.shape-default .segment.segment,
+  &.shape-rect .segment.segment {
+    border-radius: 0;
+  }
+  &.shape-round .segment.segment {
+    border-radius: var(--radius-round);
+  }
+  &.shape-pill .segment.segment {
+    border-radius: var(--radius-pill);
+  }
+  &.shape-calculator .segment.segment {
+    --crn: var(--thk);
+    --shft: calc(var(--thk) * 1);
   }
 
   &.shape-rect,

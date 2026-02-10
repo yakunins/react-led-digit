@@ -290,8 +290,7 @@ const Display = ({ scale = 1, shape, value, ...rest }: DisplayProps) => {
           },
           segmentStyle: {
             color: 'green',
-            cornerShift: '-.025em',
-            transitionDuration: '1s',
+            cornerCutoff: '-.025em',
           },
         };
         if (digit === ':') {
@@ -357,7 +356,7 @@ const SegmentShapeTest = (args: {
   thickness: number;
   spacing: number;
   shiftAD: number;
-  cornerShift: number;
+  cornerCutoff: number;
 }) => {
   const Dgt = ({ shape }: { shape?: Digit['shape'] }) => (
     <Digit
@@ -369,7 +368,7 @@ const SegmentShapeTest = (args: {
         thickness: `${args.thickness}em`,
         spacing: `${args.spacing}em`,
         shiftAD: `${args.shiftAD}em`,
-        cornerShift: `${args.cornerShift}em`,
+        cornerCutoff: `${args.cornerCutoff}em`,
       }}
     />
   );
@@ -428,14 +427,14 @@ export const Shape: Story = {
     thickness: 2,
     spacing: 0.1,
     shiftAD: 0,
-    cornerShift: 0,
+    cornerCutoff: 0,
   } as any,
   argTypes: {
     length: { control: { type: 'range', min: 1, max: 20, step: 0.5 } },
     thickness: { control: { type: 'range', min: 0.5, max: 10, step: 0.25 } },
     spacing: { control: { type: 'range', min: -0.5, max: 2, step: 0.05 } },
     shiftAD: { control: { type: 'range', min: -1, max: 1, step: 0.05 } },
-    cornerShift: { control: { type: 'range', min: -5, max: 5, step: 0.1 } },
+    cornerCutoff: { control: { type: 'range', min: -5, max: 5, step: 0.1 } },
   } as any,
   render: SegmentShapeTest as any,
 };

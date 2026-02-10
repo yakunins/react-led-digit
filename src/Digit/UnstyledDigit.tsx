@@ -68,7 +68,7 @@ type SegmentStyle = {
   /*
    * Change outer corners of a diamond-shaped digit
    */
-  cornerShift?: CSSProperties['width'];
+  cornerCutoff?: CSSProperties['width'];
 };
 
 export type Digit = DivProps & DigitProps & { segmentStyle?: SegmentStyle };
@@ -88,7 +88,7 @@ export const Digit = ({ segmentStyle, value, ...rest }: Digit) => {
     '--segment-opacity-on': segmentStyle?.opacityOn,
     '--segment-opacity-off': segmentStyle?.opacityOff,
     '--segment-transition-duration': segmentStyle?.transitionDuration,
-    '--segment-corner-shift': segmentStyle?.cornerShift,
+    '--segment-corner-cutoff': segmentStyle?.cornerCutoff,
     ...rest.style,
   } as CSSProperties;
 
