@@ -261,6 +261,7 @@ const BlinkingDigitTest = () => {
 
 export type DisplayProps = React.HTMLAttributes<HTMLDivElement> & {
   scale?: number;
+  shape?: Digit['shape'];
   segmentStyle?: Digit['segmentStyle'];
   value: string;
 };
@@ -276,19 +277,21 @@ const getDigits = (str: string): Digit['value'][] => {
   return result;
 };
 
-const Display = ({ scale = 1, value, ...rest }: DisplayProps) => {
+const Display = ({ scale = 1, shape, value, ...rest }: DisplayProps) => {
   const digits = getDigits(value);
   return (
     <div {...rest}>
       {digits.map((digit, idx) => {
         const props: Digit = {
           value: digit,
+          shape,
           style: {
             fontSize: `${scale * 100}%`,
           },
           segmentStyle: {
             color: 'green',
-            cornerShift: 'calc(var(--thickness) / 4)',
+            cornerShift: '-.025em',
+            transitionDuration: '1s',
           },
         };
         if (digit === ':') {
@@ -303,7 +306,7 @@ const Display = ({ scale = 1, value, ...rest }: DisplayProps) => {
 
 const getTime = () => new Date().toLocaleTimeString();
 
-const SimpleClock = () => {
+const SimpleClock = (args: { shape: Digit['shape']; fontSize: number }) => {
   const [time, setTime] = useState(getTime());
 
   useEffect(() => {
@@ -315,7 +318,14 @@ const SimpleClock = () => {
     return () => blinker.unsubscribe(handleBlinkerChange);
   }, []);
 
-  return <Display scale={2} style={grid} value={time} />;
+  return (
+    <Display
+      scale={2}
+      shape={args.shape}
+      style={{ ...grid, fontSize: `${args.fontSize}px` }}
+      value={time}
+    />
+  );
 };
 
 const FirefoxSubpixelTest = () => {
@@ -342,17 +352,24 @@ const FirefoxSubpixelTest = () => {
   );
 };
 
-const SegmentShapeTest = () => {
+const SegmentShapeTest = (args: {
+  length: number;
+  thickness: number;
+  spacing: number;
+  shiftAD: number;
+  cornerShift: number;
+}) => {
   const Dgt = ({ shape }: { shape?: Digit['shape'] }) => (
     <Digit
       value={'F'}
       shape={shape}
       segmentStyle={{
         color: 'green',
-        thickness: '2em',
-        length: '5em',
-        spacing: '0.1em',
-        cornerShift: '0.5em',
+        length: `${args.length}em`,
+        thickness: `${args.thickness}em`,
+        spacing: `${args.spacing}em`,
+        shiftAD: `${args.shiftAD}em`,
+        cornerShift: `${args.cornerShift}em`,
       }}
     />
   );
@@ -370,9 +387,17 @@ const SegmentShapeTest = () => {
 
 export const Clock: Story = {
   args: {
-    value: '0',
-  },
-  render: SimpleClock,
+    shape: 'default',
+    fontSize: 16,
+  } as any,
+  argTypes: {
+    shape: {
+      control: 'radio',
+      options: ['default', 'rect', 'round', 'pill', 'calculator'],
+    },
+    fontSize: { control: { type: 'range', min: 8, max: 64, step: 1 } },
+  } as any,
+  render: SimpleClock as any,
 };
 
 export const Digits: Story = {
@@ -398,7 +423,19 @@ export const Firefox: Story = {
 
 export const Shape: Story = {
   args: {
-    value: '0',
-  },
-  render: SegmentShapeTest,
+    value: 'F',
+    length: 5,
+    thickness: 2,
+    spacing: 0.1,
+    shiftAD: 0,
+    cornerShift: 0,
+  } as any,
+  argTypes: {
+    length: { control: { type: 'range', min: 1, max: 20, step: 0.5 } },
+    thickness: { control: { type: 'range', min: 0.5, max: 10, step: 0.25 } },
+    spacing: { control: { type: 'range', min: -0.5, max: 2, step: 0.05 } },
+    shiftAD: { control: { type: 'range', min: -1, max: 1, step: 0.05 } },
+    cornerShift: { control: { type: 'range', min: -5, max: 5, step: 0.1 } },
+  } as any,
+  render: SegmentShapeTest as any,
 };

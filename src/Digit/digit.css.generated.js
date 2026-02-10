@@ -2,7 +2,7 @@
 
 const css = {
   src: `src/Digit/digit.css`,
-  hash: `pbiyziddc`,
+  hash: `21g5rruyxlx`,
   content: `
 /**
  *    A
@@ -272,9 +272,64 @@ const css = {
   &.shape-pill .segment.segment {
     border-radius: var(--radius-pill);
   }
+  & {
+    clip-path: polygon(
+      0px 0px,
+      0px 0px,
+      0px 0px,
+      0px 0px,
+      0px 0px,
+      0px 0px,
+      100% 0px,
+      100% 0px,
+      100% 0px,
+      100% 0px,
+      100% 0px,
+      100% 0px,
+      100% 100%,
+      100% 100%,
+      100% 100%,
+      100% 100%,
+      100% 100%,
+      100% 100%,
+      0px 100%,
+      0px 100%,
+      0px 100%,
+      0px 100%,
+      0px 100%,
+      0px 100%
+    );
+  }
   &.shape-calculator {
-    border-radius: calc(var(--thk) * 1.2);
-    overflow: hidden;
+    --r: calc(var(--thk) * 1.2);
+
+    /* rounded corners */
+    clip-path: polygon(
+      /* top-left corner */ 0px var(--r),
+      calc(var(--r) * 0.0495) calc(var(--r) * 0.691),
+      calc(var(--r) * 0.191) calc(var(--r) * 0.4045),
+      calc(var(--r) * 0.4045) calc(var(--r) * 0.191),
+      calc(var(--r) * 0.691) calc(var(--r) * 0.0495),
+      var(--r) 0px,
+      /* top-right corner */ calc(var(--dw) - var(--r)) 0px,
+      calc(var(--dw) - var(--r) * 0.691) calc(var(--r) * 0.0495),
+      calc(var(--dw) - var(--r) * 0.4045) calc(var(--r) * 0.191),
+      calc(var(--dw) - var(--r) * 0.191) calc(var(--r) * 0.4045),
+      calc(var(--dw) - var(--r) * 0.0495) calc(var(--r) * 0.691),
+      var(--dw) var(--r),
+      /* bottom-right corner */ var(--dw) calc(var(--dh) - var(--r)),
+      calc(var(--dw) - var(--r) * 0.0495) calc(var(--dh) - var(--r) * 0.691),
+      calc(var(--dw) - var(--r) * 0.191) calc(var(--dh) - var(--r) * 0.4045),
+      calc(var(--dw) - var(--r) * 0.4045) calc(var(--dh) - var(--r) * 0.191),
+      calc(var(--dw) - var(--r) * 0.691) calc(var(--dh) - var(--r) * 0.0495),
+      calc(var(--dw) - var(--r)) var(--dh),
+      /* bottom-left corner */ var(--r) var(--dh),
+      calc(var(--r) * 0.691) calc(var(--dh) - var(--r) * 0.0495),
+      calc(var(--r) * 0.4045) calc(var(--dh) - var(--r) * 0.191),
+      calc(var(--r) * 0.191) calc(var(--dh) - var(--r) * 0.4045),
+      calc(var(--r) * 0.0495) calc(var(--dh) - var(--r) * 0.691),
+      0px calc(var(--dh) - var(--r))
+    );
 
     .segment.segment {
       --crn: var(--thk);
