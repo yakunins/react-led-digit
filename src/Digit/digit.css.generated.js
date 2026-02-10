@@ -2,7 +2,7 @@
 
 const css = {
   src: `src/Digit/digit.css`,
-  hash: `1l4zd72t3qa`,
+  hash: `38bchlriaf`,
   content: `
 /**
  *    A
@@ -262,7 +262,7 @@ const css = {
   }
 
   /* digit shape */
-  &.digit {
+  &.digit .opacity-wrapper {
     clip-path: polygon(
       0px 0px,
       0px 0px,
@@ -291,7 +291,7 @@ const css = {
     );
   }
 
-  &.shape-default {
+  &.shape-default .opacity-wrapper {
     --crn-2: calc(var(--crn) * -1 + var(--spc) + var(--thk));
 
     clip-path: polygon(
@@ -322,7 +322,7 @@ const css = {
     );
   }
 
-  &.shape-calculator {
+  &.shape-calculator .opacity-wrapper {
     --r: calc(var(--thk) * 1.35);
 
     /* rounded corners */

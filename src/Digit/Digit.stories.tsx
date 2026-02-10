@@ -289,8 +289,13 @@ const Display = ({ scale = 1, shape, value, ...rest }: DisplayProps) => {
             fontSize: `${scale * 100}%`,
           },
           segmentStyle: {
-            color: 'green',
+            spacing: '.01em',
+            color: 'black',
+            colorOff: 'orange',
+            opacityOff: 0.25,
+            thickness: '.35em',
             cornerCutoff: '-.025em',
+            transitionDuration: '1s',
           },
         };
         if (digit === ':') {
