@@ -23,7 +23,7 @@ import { Digit, BlinkingDigit } from 'react-led-digit';
 Styled segments example (see [sandbox](https://codesandbox.io/p/sandbox/react-led-digit-forked-c4f2v3)):
 
 ```tsx
-import { Digit, BlinkingDigit } from 'react-led-digit';
+import { Digit } from 'react-led-digit';
 
 <>
   <Digit
@@ -33,7 +33,7 @@ import { Digit, BlinkingDigit } from 'react-led-digit';
       colorOff: 'blue',
       length: '1em',
       thickness: '.5em',
-      cornerShift: '-.1em',
+      cornerCutoff: '-.1em',
       spacing: '-.1em',
       shiftAD: '.1em',
       opacityOn: 1,

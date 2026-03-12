@@ -12,68 +12,87 @@ import {
 type NumValue = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 type DigitValue = NumValue | SevenSegmentsValue | 'am' | 'pm' | ':' | '.';
 type DivProps = React.HTMLAttributes<HTMLDivElement>;
-export type DigitProps = {
-  /*
-   * If true, all segments turn off having 'opacityOff' style applied
+export type DigitBaseProps = {
+  /**
+   * When `true`, all segments are dimmed to `opacityOff` (default 0.1),
+   * simulating a powered-off LED display.
    */
   off?: boolean;
-  /*
-   * Shape of the segment.
-   * For 7-segment digit default shape is diamond.
-   * For colon and dot default shape is circle.
-   * For ampm default shape is letters with no background, otherwise filled.
+  /**
+   * Controls the visual shape of each segment.
+   * - `"default"` — diamond for digits, circle for colon/dot, plain text for am/pm
+   * - `"rect"` — rectangular segments with sharp corners
+   * - `"round"` — segments with fully rounded ends
+   * - `"pill"` — capsule-shaped segments (rounded rectangle)
+   * - `"calculator"` — angled segments resembling a classic LCD calculator
    */
   shape?: 'default' | 'rect' | 'round' | 'pill' | 'calculator';
-  /*
-   * If number or character (like "L"), renders itself as 7-segment digit.
-   * If ":", "." or "am"/"pm", renders itself as colon digit or dot
+  /**
+   * The character to display.
+   * - `0`–`9` or a supported letter (e.g. `"L"`, `"H"`) — renders as a 7-segment digit
+   * - `":"` — renders as a colon (two vertically stacked dots)
+   * - `"."` — renders as a single decimal dot
+   * - `"am"` / `"pm"` — renders as an AM/PM indicator
+   * - A `SevenSegmentsValue` string — directly specifies which segments to light up
    */
   value: DigitValue;
 };
 
 type SegmentStyle = {
-  /*
-   * Override currentColor, e.g works same way as style={{ color: ... }}
+  /**
+   * Color of active (lit) segments. Overrides the inherited `currentColor`.
+   * Accepts any CSS color value (e.g. `"#ff0000"`, `"red"`, `"rgb(0,255,0)"`).
    */
   color?: CSSProperties['color'];
-  /*
-   * Override currentColor for segments that turned off
+  /**
+   * Color of inactive (unlit) segments. Useful for showing a faint "ghost"
+   * outline of the full display. Defaults to the same as `color` at reduced opacity.
    */
   colorOff?: CSSProperties['color'];
-  /*
-   * Length of a segment
+  /**
+   * Length of each segment (the longer dimension).
+   * Accepts any CSS length value (e.g. `"20px"`, `"1.5em"`).
    */
   length?: CSSProperties['width'];
-  /*
-   * Thickness of a segment
+  /**
+   * Thickness of each segment (the shorter dimension).
+   * Accepts any CSS length value (e.g. `"4px"`, `"0.3em"`).
    */
   thickness?: CSSProperties['width'];
-  /*
-   * Spacing between segments, may be negative
+  /**
+   * Gap between adjacent segments. Can be negative to overlap segments.
+   * Accepts any CSS length value (e.g. `"1px"`, `"-0.5px"`).
    */
   spacing?: CSSProperties['width'];
-  /*
-   * Adjust distance between top (A) and bottom (D) segments
+  /**
+   * Vertical offset applied to the top (A) and bottom (D) horizontal segments,
+   * pushing them closer together or farther apart. Useful for fine-tuning
+   * the digit's aspect ratio.
    */
   shiftAD?: CSSProperties['width'];
-  /*
-   * On & off opacity of segments, defaults is 1 and 0.1
+  /**
+   * Opacity of active (lit) segments. Defaults to `1`.
    */
   opacityOn?: CSSProperties['opacity'];
+  /**
+   * Opacity of inactive (unlit) segments. Defaults to `0.1`.
+   */
   opacityOff?: CSSProperties['opacity'];
-  /*
-   * Segment's color and opacity transition duration, default is .25s
+  /**
+   * CSS transition duration for segment color and opacity changes.
+   * Defaults to `".25s"`. Set to `"0s"` for instant switching.
    */
   transitionDuration?: CSSProperties['transitionDuration'];
-  /*
-   * Change outer corners of a diamond-shaped digit
+  /**
+   * Size of the corner cutoff. Don't applies when `shape` is `"calculator"`.
    */
   cornerCutoff?: CSSProperties['width'];
 };
 
-export type Digit = DivProps & DigitProps & { segmentStyle?: SegmentStyle };
+export type DigitProps = DivProps &
+  DigitBaseProps & { segmentStyle?: SegmentStyle };
 
-export const Digit = ({ segmentStyle, value, ...rest }: Digit) => {
+export const Digit = ({ segmentStyle, value, ...rest }: DigitProps) => {
   const v = value.toString();
   const type = valueToType(value);
   const segments = type && valueToSegments(value); // {A: true, ...}
@@ -101,7 +120,9 @@ export const Digit = ({ segmentStyle, value, ...rest }: Digit) => {
   if (type === 'dot')
     return <DotSegments aria-label={v} {...rest} {...segments} style={sx} />;
 
-  console.warn(`(at UnstyledDigit.tsx) incompatible value: ${value.toString()}`);
+  console.warn(
+    `(at UnstyledDigit.tsx) incompatible value: ${value.toString()}`
+  );
   return (
     <div
       aria-label={v}
@@ -113,7 +134,7 @@ export const Digit = ({ segmentStyle, value, ...rest }: Digit) => {
 
 const charset = new Set(Object.keys(charToSevenSegments));
 
-function valueToType(v: DigitProps['value']) {
+function valueToType(v: DigitBaseProps['value']) {
   const str = v.toString();
   if (str === ':') return 'colon';
   if (str === '.') return 'dot';
@@ -122,7 +143,7 @@ function valueToType(v: DigitProps['value']) {
   return undefined;
 }
 
-function valueToSegments(v: Digit['value']) {
+function valueToSegments(v: DigitProps['value']) {
   const str = v?.toString() ?? '';
 
   if (str.toLowerCase() === 'am') return { AM: true };

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { UnstyledDigit } from '..';
+import { UnstyledDigit, type DigitProps } from '..';
 
 const meta = {
   title: 'Example/UnstyledDigit',
@@ -24,7 +24,7 @@ const grid = {
   placeItems: 'center center',
 };
 
-const CustomDigit = ({ ...rest }: UnstyledDigit) => {
+const CustomDigit = ({ ...rest }: DigitProps) => {
   return (
     <UnstyledDigit
       {...rest}

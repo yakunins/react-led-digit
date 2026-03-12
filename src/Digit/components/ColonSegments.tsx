@@ -1,13 +1,13 @@
 import { default as cx } from 'clsx';
-import { DigitProps } from '../UnstyledDigit';
+import { DigitBaseProps } from '../UnstyledDigit';
 import { onOffCx, shapeCx } from './utils';
 
 type DivProps = React.HTMLAttributes<HTMLDivElement>;
 
 export type ColonSegments = DivProps & {
   className?: string;
-  off?: DigitProps['off'];
-  shape?: DigitProps['shape'];
+  off?: DigitBaseProps['off'];
+  shape?: DigitBaseProps['shape'];
   D1?: boolean;
   D2?: boolean;
 };

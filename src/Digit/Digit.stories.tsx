@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Digit, BlinkingDigit, Blinker } from '../';
+import { Digit, type DigitProps, BlinkingDigit, Blinker } from '../';
 import { charToSevenSegments } from './';
 
 const meta = {
@@ -26,7 +26,7 @@ const grid = {
   placeItems: 'center center',
 };
 
-const CustomDigit = ({ ...rest }: Digit) => {
+const CustomDigit = ({ ...rest }: DigitProps) => {
   return (
     <Digit
       {...rest}
@@ -246,7 +246,7 @@ const BlinkingDigitTest = () => {
         {dgts.split('').map((char, idx) => (
           <BlinkingDigit
             key={idx}
-            value={char as Digit['value']}
+            value={char as DigitProps['value']}
             onClick={() => removeDigit(idx)}
             segmentStyle={{
               transitionDuration: '0.5s',
@@ -261,17 +261,17 @@ const BlinkingDigitTest = () => {
 
 export type DisplayProps = React.HTMLAttributes<HTMLDivElement> & {
   scale?: number;
-  shape?: Digit['shape'];
-  segmentStyle?: Digit['segmentStyle'];
+  shape?: DigitProps['shape'];
+  segmentStyle?: DigitProps['segmentStyle'];
   value: string;
 };
 
-const getDigits = (str: string): Digit['value'][] => {
+const getDigits = (str: string): DigitProps['value'][] => {
   let s = str.trim().toLowerCase();
   const am = s.includes('am');
   const pm = s.includes('pm');
   s = s.replace('am', '').replace('pm', '').replace(' ', '');
-  const result = s.split('') as Digit['value'][];
+  const result = s.split('') as DigitProps['value'][];
   if (am) result.push('am');
   if (pm) result.push('pm');
   return result;
@@ -282,7 +282,7 @@ const Display = ({ scale = 1, shape, value, ...rest }: DisplayProps) => {
   return (
     <div {...rest}>
       {digits.map((digit, idx) => {
-        const props: Digit = {
+        const props: DigitProps = {
           value: digit,
           shape,
           style: {
@@ -310,7 +310,7 @@ const Display = ({ scale = 1, shape, value, ...rest }: DisplayProps) => {
 
 const getTime = () => new Date().toLocaleTimeString();
 
-const SimpleClock = (args: { shape: Digit['shape']; fontSize: number }) => {
+const SimpleClock = (args: { shape: DigitProps['shape']; fontSize: number }) => {
   const [time, setTime] = useState(getTime());
 
   useEffect(() => {
@@ -333,7 +333,7 @@ const SimpleClock = (args: { shape: Digit['shape']; fontSize: number }) => {
 };
 
 const FirefoxSubpixelTest = () => {
-  const DigitFF = (props: { v?: Digit['value'] }) => (
+  const DigitFF = (props: { v?: DigitProps['value'] }) => (
     <Digit
       value={props.v || 8}
       segmentStyle={{
@@ -363,7 +363,7 @@ const SegmentShapeTest = (args: {
   shiftAD: number;
   cornerCutoff: number;
 }) => {
-  const Dgt = ({ shape }: { shape?: Digit['shape'] }) => (
+  const Dgt = ({ shape }: { shape?: DigitProps['shape'] }) => (
     <Digit
       value={'F'}
       shape={shape}

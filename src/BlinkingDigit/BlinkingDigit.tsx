@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { default as cx } from 'clsx';
 
-import { Digit } from '../Digit';
+import { Digit, type DigitProps } from '../Digit';
 import { Blinker } from '../Blinker';
 
-type BlinkingDigit = Digit & {
+type BlinkingDigitProps = DigitProps & {
   blinkOptions?: {
     period?: Blinker['period'];
     ratio?: Blinker['ratio'];
@@ -13,7 +13,7 @@ type BlinkingDigit = Digit & {
 };
 
 export const BlinkingDigit = React.memo(
-  ({ blinkOptions, className, ...rest }: BlinkingDigit) => {
+  ({ blinkOptions, className, ...rest }: BlinkingDigitProps) => {
     const [visible, setVisible] = useState(true);
 
     useEffect(() => {

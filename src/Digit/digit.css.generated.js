@@ -2,7 +2,7 @@
 
 const css = {
   src: `src/Digit/digit.css`,
-  hash: `38bchlriaf`,
+  hash: `ru8357il70`,
   content: `
 /**
  *    A
@@ -460,7 +460,7 @@ const css = {
   transform: rotate3d(1, -1, 0, 0.025deg);
 }
 
-/* better subpixel rendering (Firefox) */
+/* better subpixel (16x) rendering for Firefox */
 @-moz-document url-prefix() {
   .digit {
     --scale: 4;
